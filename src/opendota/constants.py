@@ -36,7 +36,8 @@ class DotaConstants:
                 response.raise_for_status()
                 self._cache[endpoint] = response.json()
 
-        return self._cache[endpoint]
+        result: Dict[str, Any] = self._cache[endpoint]
+        return result
 
     async def get_heroes_constants(self) -> Dict[str, Dict[str, Any]]:
         """

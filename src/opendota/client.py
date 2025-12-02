@@ -4,9 +4,15 @@ import asyncio
 import hashlib
 import json
 import os
+import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Literal, Optional, TypeAlias, Union
+from typing import Any, Dict, List, Literal, Optional, Union, cast
+
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
+else:
+    from typing_extensions import TypeAlias
 
 import httpx
 
@@ -94,7 +100,7 @@ class OpenDota:
                     raise ValueError(f"Invalid fantasy key: {key}. Must be one of {list(FANTASY.keys())}")
 
         # Track last request time for rate limiting
-        self._last_request_time = 0
+        self._last_request_time: float = 0.0
         self._client = None
 
     async def _ensure_client(self):
@@ -298,7 +304,7 @@ class OpenDota:
         """
         data = await self.get(f"matches/{match_id}")
         match = Match(**data)
-        return self._format_response(match)
+        return cast(MatchResponse, self._format_response(match))
 
     async def get_public_matches(
         self,
@@ -326,7 +332,7 @@ class OpenDota:
 
         data = await self.get("publicMatches", params=params)
         matches = [PublicMatch(**match) for match in data]
-        return self._format_response(matches)
+        return cast(PublicMatchesResponse, self._format_response(matches))
 
     async def get_pro_matches(self, less_than_match_id: Optional[int] = None) -> ProMatchesResponse:
         """Get professional matches.
@@ -343,7 +349,7 @@ class OpenDota:
 
         data = await self.get("proMatches", params=params)
         matches = [ProMatch(**match) for match in data]
-        return self._format_response(matches)
+        return cast(ProMatchesResponse, self._format_response(matches))
 
     async def get_parsed_matches(self, less_than_match_id: Optional[int] = None) -> List[Dict[str, Any]]:
         """Get parsed matches.
@@ -358,7 +364,8 @@ class OpenDota:
         if less_than_match_id is not None:
             params["less_than_match_id"] = less_than_match_id
 
-        return await self.get("parsedMatches", params=params)
+        result: List[Dict[str, Any]] = await self.get("parsedMatches", params=params)
+        return result
 
     # Player Methods
     async def get_player(self, account_id: int) -> PlayerResponse:
@@ -372,7 +379,7 @@ class OpenDota:
         """
         data = await self.get(f"players/{account_id}")
         player = PlayerProfile(**data)
-        return self._format_response(player)
+        return cast(PlayerResponse, self._format_response(player))
 
     async def get_player_matches(
         self,
@@ -462,7 +469,7 @@ class OpenDota:
 
         data = await self.get(f"players/{account_id}/matches", params=params)
         matches = [PlayerMatch(**match) for match in data]
-        return self._format_response(matches)
+        return cast(PlayerMatchesResponse, self._format_response(matches))
 
     # Hero Methods
     async def get_heroes(self) -> HeroesResponse:
@@ -473,7 +480,7 @@ class OpenDota:
         """
         data = await self.get("heroes")
         heroes = [Hero(**hero) for hero in data]
-        return self._format_response(heroes)
+        return cast(HeroesResponse, self._format_response(heroes))
 
     async def get_hero_stats(self) -> HeroStatsResponse:
         """Get hero statistics.
@@ -483,4 +490,4 @@ class OpenDota:
         """
         data = await self.get("heroStats")
         hero_stats = [HeroStats(**hero) for hero in data]
-        return self._format_response(hero_stats)
+        return cast(HeroStatsResponse, self._format_response(hero_stats))
