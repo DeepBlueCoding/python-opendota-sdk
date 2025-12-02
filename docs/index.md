@@ -1,6 +1,6 @@
 # Python OpenDota SDK
 
-[![PyPI version](https://badge.fury.io/py/python-opendota.svg)](https://pypi.org/project/python-opendota/)
+[![PyPI version](https://badge.fury.io/py/python-opendota-sdk.svg)](https://pypi.org/project/python-opendota-sdk/)
 [![Build Status](https://github.com/DeepBlueCoding/python-opendota-sdk/actions/workflows/test.yml/badge.svg)](https://github.com/DeepBlueCoding/python-opendota-sdk/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
@@ -43,17 +43,17 @@ asyncio.run(main())
 ## Installation
 
 ```bash
-pip install python-opendota
+pip install python-opendota-sdk
 ```
 
 Or with uv:
 
 ```bash
-uv add python-opendota
+uv add python-opendota-sdk
 ```
 
 ## Links
 
 - [GitHub Repository](https://github.com/DeepBlueCoding/python-opendota-sdk)
-- [PyPI Package](https://pypi.org/project/python-opendota/)
+- [PyPI Package](https://pypi.org/project/python-opendota-sdk/)
 - [OpenDota API Docs](https://docs.opendota.com/)

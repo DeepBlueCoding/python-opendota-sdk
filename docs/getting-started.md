@@ -5,13 +5,13 @@
 ### From PyPI (Recommended)
 
 ```bash
-pip install python-opendota
+pip install python-opendota-sdk
 ```
 
 Or with uv:
 
 ```bash
-uv add python-opendota
+uv add python-opendota-sdk
 ```
 
 ### From Source

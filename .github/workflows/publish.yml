@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/python-opendota
+      url: https://test.pypi.org/p/python-opendota-sdk
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -95,7 +95,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/python-opendota
+      url: https://pypi.org/p/python-opendota-sdk
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4

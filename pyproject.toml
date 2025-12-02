@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "python-opendota"
+name = "python-opendota-sdk"
 version = "7.39.5.1"
 description = "Modern async Python wrapper for the OpenDota API with full type support"
 readme = "README.md"

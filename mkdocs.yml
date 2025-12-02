@@ -74,4 +74,4 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/DeepBlueCoding/python-opendota-sdk
     - icon: fontawesome/brands/python
-      link: https://pypi.org/project/python-opendota/
+      link: https://pypi.org/project/python-opendota-sdk/
