@@ -1,7 +1,8 @@
 """Pydantic models for match-related data."""
 
 from datetime import datetime
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List, Optional
+
 from pydantic import BaseModel
 
 
@@ -100,7 +101,7 @@ class Match(BaseModel):
     patch: Optional[int] = None
     region: Optional[int] = None
     replay_url: Optional[str] = None
-    
+
     @property
     def start_datetime(self) -> datetime:
         """Convert start_time to datetime object."""
@@ -121,7 +122,7 @@ class PublicMatch(BaseModel):
     avg_rank_tier: Optional[float] = None
     num_rank_tier: Optional[int] = None
     cluster: Optional[int] = None
-    
+
     @property
     def start_datetime(self) -> datetime:
         """Convert start_time to datetime object."""
@@ -144,7 +145,7 @@ class ProMatch(BaseModel):
     radiant_score: int
     dire_score: int
     radiant_win: bool
-    
+
     @property
     def start_datetime(self) -> datetime:
         """Convert start_time to datetime object."""

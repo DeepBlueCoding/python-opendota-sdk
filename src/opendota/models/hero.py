@@ -1,6 +1,7 @@
 """Pydantic models for hero-related data."""
 
 from typing import List, Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -73,7 +74,7 @@ class HeroStats(BaseModel):
     legs: Optional[int] = None
     day_vision: Optional[int] = None
     night_vision: Optional[int] = None
-    
+
     # Statistics fields
     pro_win: Optional[int] = None
     pro_pick: Optional[int] = None
@@ -82,7 +83,7 @@ class HeroStats(BaseModel):
     pub_win: Optional[int] = None
     turbo_picks: Optional[int] = None
     turbo_wins: Optional[int] = None
-    
+
     # Bracket-specific stats (1-8 represent skill brackets)
     field_1_pick: Optional[int] = Field(None, alias="1_pick")
     field_1_win: Optional[int] = Field(None, alias="1_win")
@@ -100,7 +101,7 @@ class HeroStats(BaseModel):
     field_7_win: Optional[int] = Field(None, alias="7_win")
     field_8_pick: Optional[int] = Field(None, alias="8_pick")
     field_8_win: Optional[int] = Field(None, alias="8_win")
-    
+
     # Trend data (lists of recent statistics)
     pub_pick_trend: Optional[List[int]] = None
     pub_win_trend: Optional[List[int]] = None

@@ -8,6 +8,6 @@ if TYPE_CHECKING:
 
 class BaseEndpoint:
     """Base class for API endpoints."""
-    
+
     def __init__(self, client: "OpenDota"):
         self.client = client

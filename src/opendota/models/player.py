@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -31,7 +32,7 @@ class PlayerProfile(BaseModel):
     rank_tier: Optional[int] = None
     leaderboard_rank: Optional[int] = None
     computed_rating: Optional[float] = None
-    
+
     @property
     def last_login_datetime(self) -> Optional[datetime]:
         """Convert last_login to datetime object."""
@@ -69,7 +70,7 @@ class PlayerMatch(BaseModel):
     leaver_status: int
     party_size: Optional[int] = None
     hero_variant: Optional[int] = None
-    
+
     @property
     def start_datetime(self) -> datetime:
         """Convert start_time to datetime object."""
