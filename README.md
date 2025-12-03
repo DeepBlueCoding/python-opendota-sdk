@@ -136,6 +136,57 @@ async with OpenDota() as client:
             print(f"{hero.localized_name}: {winrate:.1f}% WR")
 ```
 
+### Teams
+
+```python
+async with OpenDota() as client:
+    # Get all teams
+    teams = await client.get_teams()
+    print(f"Total teams: {len(teams)}")
+
+    # Get specific team details
+    team = await client.get_team(8599101)  # Team Spirit
+    print(f"{team['name']}: {team['rating']} rating")
+
+    # Get team roster
+    players = await client.get_team_players(8599101)
+    for player in players[:5]:
+        print(f"  {player['name']}: {player['games_played']} games")
+
+    # Get team match history
+    matches = await client.get_team_matches(8599101, limit=10)
+```
+
+### Pro Players
+
+```python
+async with OpenDota() as client:
+    # Get all professional players
+    pro_players = await client.get_pro_players()
+    print(f"Total pro players: {len(pro_players)}")
+
+    # Filter by team
+    spirit_players = [p for p in pro_players if p.get('team_id') == 8599101]
+```
+
+### Leagues
+
+```python
+async with OpenDota() as client:
+    # Get all leagues/tournaments
+    leagues = await client.get_leagues()
+    premium = [l for l in leagues if l.get('tier') == 'premium']
+
+    # Get league details
+    league = await client.get_league(15728)  # TI
+
+    # Get league matches
+    matches = await client.get_league_matches(15728, limit=50)
+
+    # Get teams in a league
+    teams = await client.get_league_teams(15728)
+```
+
 ## Available Endpoints
 
 | Category | Method | Description |
@@ -148,6 +199,15 @@ async with OpenDota() as client:
 | | `get_player_matches(account_id, **filters)` | Get player match history |
 | **Heroes** | `get_heroes()` | Get all heroes data |
 | | `get_hero_stats()` | Get hero statistics |
+| **Teams** | `get_teams()` | Get all teams |
+| | `get_team(team_id)` | Get team details |
+| | `get_team_players(team_id)` | Get team roster |
+| | `get_team_matches(team_id, limit)` | Get team match history |
+| **Pro Players** | `get_pro_players()` | Get all professional players |
+| **Leagues** | `get_leagues()` | Get all leagues/tournaments |
+| | `get_league(league_id)` | Get league details |
+| | `get_league_matches(league_id, limit)` | Get league matches |
+| | `get_league_teams(league_id)` | Get teams in a league |
 
 ## Error Handling
 

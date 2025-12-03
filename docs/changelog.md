@@ -1,9 +1,34 @@
 # Changelog
 
+<details>
+<summary><strong>🤖 AI Summary</strong></summary>
+
+Version scheme: `{dota_major}.{dota_minor}.{dota_letter}.{sdk_release}` (e.g., 7.39.5.1 = Dota patch 7.39e, first SDK release). Current version adds: async httpx client, Pydantic models, matches/players/heroes/teams/leagues/pro_players endpoints, error handling, rate limiting, API key support, caching.
+
+</details>
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [7.39.5.1.dev2] - 2025-12-03
+
+### Added
+- Teams endpoints:
+  - `get_teams()` - Get all teams sorted by rating
+  - `get_team(team_id)` - Get team details
+  - `get_team_players(team_id)` - Get team roster
+  - `get_team_matches(team_id)` - Get team match history
+- Pro Players endpoints:
+  - `get_pro_players()` - Get all professional players
+- Leagues endpoints:
+  - `get_leagues()` - Get all leagues/tournaments
+  - `get_league(league_id)` - Get league details
+  - `get_league_matches(league_id)` - Get league matches
+  - `get_league_teams(league_id)` - Get teams in a league
+- New Pydantic models: `Team`, `TeamPlayer`, `TeamMatch`, `ProPlayer`, `League`
+- Comprehensive test suite for new endpoints
 
 ## [7.39.5.1] - 2025-12-02
 

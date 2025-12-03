@@ -1,5 +1,12 @@
 # Python OpenDota SDK
 
+<details>
+<summary><strong>🤖 AI Summary</strong></summary>
+
+Async Python SDK for OpenDota API. Use `OpenDota()` as async context manager. Key methods: `get_match(id)`, `get_player(id)`, `get_public_matches()`, `get_heroes()`. Returns Pydantic models by default (type-safe), or dicts with `format='json'`. Free tier: 2000 calls/day. Install: `pip install python-opendota-sdk`.
+
+</details>
+
 > Modern async Python wrapper for the OpenDota API
 
 [![PyPI version](https://badge.fury.io/py/python-opendota-sdk.svg)](https://pypi.org/project/python-opendota-sdk/)

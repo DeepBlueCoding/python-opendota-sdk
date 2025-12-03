@@ -19,8 +19,11 @@ import httpx
 from .exceptions import OpenDotaAPIError, OpenDotaNotFoundError, OpenDotaRateLimitError
 from .fantasy import FANTASY
 from .models.hero import Hero, HeroStats
+from .models.league import League, LeagueTeam
 from .models.match import Match, ProMatch, PublicMatch
 from .models.player import PlayerMatch, PlayerProfile
+from .models.pro_player import ProPlayer
+from .models.team import Team, TeamMatch, TeamPlayer
 
 # Type aliases for response formats - Easy to extend with new formats (e.g., add XML, MessagePack, etc.)
 MatchResponse: TypeAlias = Union[Match, dict]
@@ -30,6 +33,20 @@ PlayerResponse: TypeAlias = Union[PlayerProfile, dict]
 PlayerMatchesResponse: TypeAlias = Union[List[PlayerMatch], List[dict]]
 HeroesResponse: TypeAlias = Union[List[Hero], List[dict]]
 HeroStatsResponse: TypeAlias = Union[List[HeroStats], List[dict]]
+
+# Team type aliases
+TeamsResponse: TypeAlias = Union[List[Team], List[dict]]
+TeamResponse: TypeAlias = Union[Team, dict]
+TeamPlayersResponse: TypeAlias = Union[List[TeamPlayer], List[dict]]
+TeamMatchesResponse: TypeAlias = Union[List[TeamMatch], List[dict]]
+
+# Pro player type aliases
+ProPlayersResponse: TypeAlias = Union[List[ProPlayer], List[dict]]
+
+# League type aliases
+LeaguesResponse: TypeAlias = Union[List[League], List[dict]]
+LeagueResponse: TypeAlias = Union[League, dict]
+LeagueTeamsResponse: TypeAlias = Union[List[LeagueTeam], List[dict]]
 
 
 class OpenDota:
@@ -491,3 +508,134 @@ class OpenDota:
         data = await self.get("heroStats")
         hero_stats = [HeroStats(**hero) for hero in data]
         return cast(HeroStatsResponse, self._format_response(hero_stats))
+
+    # Team Methods
+    async def get_teams(self) -> TeamsResponse:
+        """Get all teams.
+
+        Returns:
+            List of all teams (List[Team] if format='pydantic', List[dict] if format='json')
+        """
+        data = await self.get("teams")
+        teams = [Team(**team) for team in data]
+        return cast(TeamsResponse, self._format_response(teams))
+
+    async def get_team(self, team_id: int) -> TeamResponse:
+        """Get team data by team ID.
+
+        Args:
+            team_id: The team ID to retrieve
+
+        Returns:
+            Team data (Team if format='pydantic', dict if format='json')
+        """
+        data = await self.get(f"teams/{team_id}")
+        team = Team(**data)
+        return cast(TeamResponse, self._format_response(team))
+
+    async def get_team_players(self, team_id: int) -> TeamPlayersResponse:
+        """Get team roster (current and historical players).
+
+        Args:
+            team_id: The team ID
+
+        Returns:
+            List of team players (List[TeamPlayer] if format='pydantic', List[dict] if format='json')
+        """
+        data = await self.get(f"teams/{team_id}/players")
+        players = [TeamPlayer(**p) for p in data]
+        return cast(TeamPlayersResponse, self._format_response(players))
+
+    async def get_team_matches(
+        self,
+        team_id: int,
+        limit: Optional[int] = None
+    ) -> TeamMatchesResponse:
+        """Get team match history.
+
+        Args:
+            team_id: The team ID
+            limit: Maximum number of matches to return
+
+        Returns:
+            List of team matches (List[TeamMatch] if format='pydantic', List[dict] if format='json')
+        """
+        params: Dict[str, Any] = {}
+        if limit is not None:
+            params["limit"] = limit
+
+        data = await self.get(f"teams/{team_id}/matches", params=params or None)
+        matches = [TeamMatch(**m) for m in data]
+        return cast(TeamMatchesResponse, self._format_response(matches))
+
+    # Pro Player Methods
+    async def get_pro_players(self) -> ProPlayersResponse:
+        """Get all professional players.
+
+        Returns:
+            List of pro players (List[ProPlayer] if format='pydantic', List[dict] if format='json')
+        """
+        data = await self.get("proPlayers")
+        players = [ProPlayer(**p) for p in data]
+        return cast(ProPlayersResponse, self._format_response(players))
+
+    # League Methods
+    async def get_leagues(self) -> LeaguesResponse:
+        """Get all leagues/tournaments.
+
+        Returns:
+            List of leagues (List[League] if format='pydantic', List[dict] if format='json')
+        """
+        data = await self.get("leagues")
+        leagues = [League(**league) for league in data]
+        return cast(LeaguesResponse, self._format_response(leagues))
+
+    async def get_league(self, league_id: int) -> LeagueResponse:
+        """Get league data by league ID.
+
+        Args:
+            league_id: The league ID to retrieve
+
+        Returns:
+            League data (League if format='pydantic', dict if format='json')
+        """
+        data = await self.get(f"leagues/{league_id}")
+        league = League(**data)
+        return cast(LeagueResponse, self._format_response(league))
+
+    async def get_league_matches(
+        self,
+        league_id: int,
+        limit: Optional[int] = None
+    ) -> List[Dict[str, Any]]:
+        """Get matches in a league.
+
+        Args:
+            league_id: The league ID
+            limit: Maximum number of matches to return
+
+        Returns:
+            List of match data
+        """
+        params: Dict[str, Any] = {}
+        if limit is not None:
+            params["limit"] = limit
+
+        result: List[Dict[str, Any]] = await self.get(
+            f"leagues/{league_id}/matches",
+            params=params or None
+        )
+        return result
+
+    async def get_league_teams(self, league_id: int) -> LeagueTeamsResponse:
+        """Get teams participating in a league.
+
+        Args:
+            league_id: The league ID
+
+        Returns:
+            List of teams (List[LeagueTeam] if format='pydantic', List[dict] if format='json')
+        """
+        data = await self.get(f"leagues/{league_id}/teams")
+        teams = [LeagueTeam(**t) for t in data]
+        return cast(LeagueTeamsResponse, self._format_response(teams))
