@@ -996,13 +996,10 @@
 
 
 <h1 id="data-models">Data Models<a class="headerlink" href="#data-models" title="Permanent link">&para;</a></h1>
-<details>
-<summary><strong>🤖 AI Summary</strong></summary>
-
-Pydantic models for API responses. **Match models**: `Match` (full data with players list), `PublicMatch` (summary with avg_mmr), `ProMatch` (with team/league names). **Player models**: `PlayerProfile` (profile + rank_tier), `PlayerMatch` (hero_id, KDA, player_slot). **Hero models**: `Hero` (name, roles, primary_attr), `HeroStats` (pro_pick/win/ban, rank-specific picks). Access via typed properties: `match.radiant_win`, `player.kills`.
-
+<details class="info">
+<summary>🤖 AI Summary</summary>
+<p>Pydantic models for API responses. <strong>Match models</strong>: <code>Match</code> (full data with players list), <code>PublicMatch</code> (summary with avg_mmr), <code>ProMatch</code> (with team/league names). <strong>Player models</strong>: <code>PlayerProfile</code> (profile + rank_tier), <code>PlayerMatch</code> (hero_id, KDA, player_slot). <strong>Hero models</strong>: <code>Hero</code> (name, roles, primary_attr), <code>HeroStats</code> (pro_pick/win/ban, rank-specific picks). Access via typed properties: <code>match.radiant_win</code>, <code>player.kills</code>.</p>
 </details>
-
 <p>All API responses are parsed into Pydantic models with full type safety.</p>
 <h2 id="match-models">Match Models<a class="headerlink" href="#match-models" title="Permanent link">&para;</a></h2>
 <h3 id="match">Match<a class="headerlink" href="#match" title="Permanent link">&para;</a></h3>

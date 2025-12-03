@@ -872,13 +872,10 @@
 
 
 <h1 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h1>
-<details>
-<summary><strong>🤖 AI Summary</strong></summary>
-
-Exception hierarchy: `OpenDotaError` (base) → `OpenDotaAPIError` (has `status_code`) → `OpenDotaRateLimitError` (429), `OpenDotaNotFoundError` (404). Catch specific exceptions first, fallback to `OpenDotaAPIError`. For rate limits, implement exponential backoff retry (2^attempt seconds).
-
+<details class="info">
+<summary>🤖 AI Summary</summary>
+<p>Exception hierarchy: <code>OpenDotaError</code> (base) → <code>OpenDotaAPIError</code> (has <code>status_code</code>) → <code>OpenDotaRateLimitError</code> (429), <code>OpenDotaNotFoundError</code> (404). Catch specific exceptions first, fallback to <code>OpenDotaAPIError</code>. For rate limits, implement exponential backoff retry (2^attempt seconds).</p>
 </details>
-
 <p>Custom exceptions for handling API errors.</p>
 <h2 id="exception-hierarchy">Exception Hierarchy<a class="headerlink" href="#exception-hierarchy" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>OpenDotaError (base)
