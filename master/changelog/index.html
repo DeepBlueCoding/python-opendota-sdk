@@ -659,6 +659,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#73951dev2-2025-12-03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [7.39.5.1.dev2] - 2025-12-03
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[7.39.5.1.dev2] - 2025-12-03">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#73951-2025-12-02" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -671,7 +699,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#added_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -732,6 +760,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#73951dev2-2025-12-03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [7.39.5.1.dev2] - 2025-12-03
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[7.39.5.1.dev2] - 2025-12-03">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#73951-2025-12-02" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -744,7 +800,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#added_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -791,14 +847,39 @@
 
 
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<details>
+<summary><strong>🤖 AI Summary</strong></summary>
+
+Version scheme: `{dota_major}.{dota_minor}.{dota_letter}.{sdk_release}` (e.g., 7.39.5.1 = Dota patch 7.39e, first SDK release). Current version adds: async httpx client, Pydantic models, matches/players/heroes/teams/leagues/pro_players endpoints, error handling, rate limiting, API key support, caching.
+
+</details>
+
 <p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
 and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<h2 id="73951dev2-2025-12-03">[7.39.5.1.dev2] - 2025-12-03<a class="headerlink" href="#73951dev2-2025-12-03" title="Permanent link">&para;</a></h2>
+<h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Teams endpoints:</li>
+<li><code>get_teams()</code> - Get all teams sorted by rating</li>
+<li><code>get_team(team_id)</code> - Get team details</li>
+<li><code>get_team_players(team_id)</code> - Get team roster</li>
+<li><code>get_team_matches(team_id)</code> - Get team match history</li>
+<li>Pro Players endpoints:</li>
+<li><code>get_pro_players()</code> - Get all professional players</li>
+<li>Leagues endpoints:</li>
+<li><code>get_leagues()</code> - Get all leagues/tournaments</li>
+<li><code>get_league(league_id)</code> - Get league details</li>
+<li><code>get_league_matches(league_id)</code> - Get league matches</li>
+<li><code>get_league_teams(league_id)</code> - Get teams in a league</li>
+<li>New Pydantic models: <code>Team</code>, <code>TeamPlayer</code>, <code>TeamMatch</code>, <code>ProPlayer</code>, <code>League</code></li>
+<li>Comprehensive test suite for new endpoints</li>
+</ul>
 <h2 id="73951-2025-12-02">[7.39.5.1] - 2025-12-02<a class="headerlink" href="#73951-2025-12-02" title="Permanent link">&para;</a></h2>
 <p>Version scheme: <code>{dota_major}.{dota_minor}.{dota_letter}.{sdk_release}</code>
 - <code>7.39.5</code> = Dota 2 patch 7.39e (a=1, b=2, c=3, d=4, e=5)
 - <code>.1</code> = First SDK release for this patch</p>
-<h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
+<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Full async/await support with httpx</li>
 <li>Complete type safety with Pydantic models</li>
