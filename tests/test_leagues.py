@@ -40,9 +40,8 @@ class TestLeagues:
         leagues = await client.get_leagues()
 
         # Count leagues by tier
-        premium = [l for l in leagues if l.get("tier") == "premium"]
-        professional = [l for l in leagues if l.get("tier") == "professional"]
-        amateur = [l for l in leagues if l.get("tier") == "amateur"]
+        premium = [lg for lg in leagues if lg.get("tier") == "premium"]
+        professional = [lg for lg in leagues if lg.get("tier") == "professional"]
 
         # Should have leagues in different tiers
         assert len(premium) > 0, "Should have premium leagues (TI, Majors)"
@@ -53,7 +52,7 @@ class TestLeagues:
         """Test that most leagues have names."""
         leagues = await client.get_leagues()
 
-        leagues_with_name = [l for l in leagues if l.get("name")]
+        leagues_with_name = [lg for lg in leagues if lg.get("name")]
         assert len(leagues_with_name) > len(leagues) * 0.5, "Most leagues should have names"
 
     @pytest.mark.asyncio
@@ -75,7 +74,7 @@ class TestLeagues:
         leagues = await client.get_leagues()
 
         # Find a premium league that likely has matches
-        premium_leagues = [l for l in leagues if l.get("tier") == "premium"]
+        premium_leagues = [lg for lg in leagues if lg.get("tier") == "premium"]
 
         if len(premium_leagues) > 0:
             league_id = premium_leagues[0].get("leagueid")
@@ -91,7 +90,7 @@ class TestLeagues:
         leagues = await client.get_leagues()
 
         # Find a premium league
-        premium_leagues = [l for l in leagues if l.get("tier") == "premium"]
+        premium_leagues = [lg for lg in leagues if lg.get("tier") == "premium"]
 
         if len(premium_leagues) > 0:
             league_id = premium_leagues[0].get("leagueid")
@@ -104,8 +103,8 @@ class TestLeagues:
         """Test that premium tier contains major tournaments."""
         leagues = await client.get_leagues()
 
-        premium = [l for l in leagues if l.get("tier") == "premium"]
-        premium_names = [l.get("name", "").lower() for l in premium]
+        premium = [lg for lg in leagues if lg.get("tier") == "premium"]
+        premium_names = [lg.get("name", "").lower() for lg in premium]
 
         # Check for known major tournament patterns
         has_ti = any("international" in name for name in premium_names)
