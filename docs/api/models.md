@@ -1,11 +1,8 @@
 # Data Models
 
-<details>
-<summary><strong>🤖 AI Summary</strong></summary>
+??? info "🤖 AI Summary"
 
-Pydantic models for API responses. **Match models**: `Match` (full data with players list), `PublicMatch` (summary with avg_mmr), `ProMatch` (with team/league names). **Player models**: `PlayerProfile` (profile + rank_tier), `PlayerMatch` (hero_id, KDA, player_slot). **Hero models**: `Hero` (name, roles, primary_attr), `HeroStats` (pro_pick/win/ban, rank-specific picks). Access via typed properties: `match.radiant_win`, `player.kills`.
-
-</details>
+    Pydantic models for API responses. **Match models**: `Match` (full data with players list), `PublicMatch` (summary with avg_mmr), `ProMatch` (with team/league names). **Player models**: `PlayerProfile` (profile + rank_tier), `PlayerMatch` (hero_id, KDA, player_slot). **Hero models**: `Hero` (name, roles, primary_attr), `HeroStats` (pro_pick/win/ban, rank-specific picks). Access via typed properties: `match.radiant_win`, `player.kills`.
 
 All API responses are parsed into Pydantic models with full type safety.
 

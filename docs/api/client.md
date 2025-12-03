@@ -1,11 +1,8 @@
 # Client Reference
 
-<details>
-<summary><strong>🤖 AI Summary</strong></summary>
+??? info "🤖 AI Summary"
 
-**OpenDota class constructor**: `api_key`, `timeout`, `format` ('pydantic'/'json'). **Match methods**: `get_match(id)`, `get_public_matches(mmr_ascending, less_than_match_id)`, `get_pro_matches()`. **Player methods**: `get_player(account_id)`, `get_player_matches(account_id, hero_id, limit, win)`. **Hero methods**: `get_heroes()`, `get_hero_stats()`. **Teams**: `get_teams()`, `get_team(id)`, `get_team_players(id)`, `get_team_matches(id)`. **Leagues**: `get_leagues()`, `get_league(id)`, `get_league_matches(id)`, `get_league_teams(id)`. **Pro Players**: `get_pro_players()`.
-
-</details>
+    **OpenDota class constructor**: `api_key`, `timeout`, `format` ('pydantic'/'json'). **Match methods**: `get_match(id)`, `get_public_matches(mmr_ascending, less_than_match_id)`, `get_pro_matches()`. **Player methods**: `get_player(account_id)`, `get_player_matches(account_id, hero_id, limit, win)`. **Hero methods**: `get_heroes()`, `get_hero_stats()`. **Teams**: `get_teams()`, `get_team(id)`, `get_team_players(id)`, `get_team_matches(id)`. **Leagues**: `get_leagues()`, `get_league(id)`, `get_league_matches(id)`, `get_league_teams(id)`. **Pro Players**: `get_pro_players()`.
 
 ## OpenDota Class
 

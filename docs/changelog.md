@@ -1,11 +1,8 @@
 # Changelog
 
-<details>
-<summary><strong>🤖 AI Summary</strong></summary>
+??? info "🤖 AI Summary"
 
-Version scheme: `{dota_major}.{dota_minor}.{dota_letter}.{sdk_release}` (e.g., 7.39.5.1 = Dota patch 7.39e, first SDK release). Current version adds: async httpx client, Pydantic models, matches/players/heroes/teams/leagues/pro_players endpoints, error handling, rate limiting, API key support, caching.
-
-</details>
+    Version scheme: `{dota_major}.{dota_minor}.{dota_letter}.{sdk_release}` (e.g., 7.39.5.1 = Dota patch 7.39e, first SDK release). Current version adds: async httpx client, Pydantic models, matches/players/heroes/teams/leagues/pro_players endpoints, error handling, rate limiting, API key support, caching.
 
 All notable changes to this project will be documented in this file.
 

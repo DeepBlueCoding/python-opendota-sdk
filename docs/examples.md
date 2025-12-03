@@ -1,11 +1,8 @@
 # Examples
 
-<details>
-<summary><strong>🤖 AI Summary</strong></summary>
+??? info "🤖 AI Summary"
 
-Code examples for common tasks: **Match analysis** - get KDA, GPM, winner. **Player tracking** - profile, recent matches, winrate, most played heroes. **Meta heroes** - filter by pro pick rates, sort by win rate. **Player comparison** - compare stats between two players. **Pro match monitor** - poll for new pro matches. **Batch collection** - paginate through high MMR matches with rate limiting.
-
-</details>
+    Code examples for common tasks: **Match analysis** - get KDA, GPM, winner. **Player tracking** - profile, recent matches, winrate, most played heroes. **Meta heroes** - filter by pro pick rates, sort by win rate. **Player comparison** - compare stats between two players. **Pro match monitor** - poll for new pro matches. **Batch collection** - paginate through high MMR matches with rate limiting.
 
 ## Analyze Match Performance
 

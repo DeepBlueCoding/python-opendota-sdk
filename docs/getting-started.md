@@ -1,11 +1,8 @@
 # Getting Started
 
-<details>
-<summary><strong>🤖 AI Summary</strong></summary>
+??? info "🤖 AI Summary"
 
-Install: `pip install python-opendota-sdk` or `uv add python-opendota-sdk`. Use async context manager: `async with OpenDota() as client`. Optional API key via env var `OPENDOTA_API_KEY` or constructor param for unlimited calls. Two output formats: `format='pydantic'` (default, type-safe) or `format='json'` (raw dicts).
-
-</details>
+    Install: `pip install python-opendota-sdk` or `uv add python-opendota-sdk`. Use async context manager: `async with OpenDota() as client`. Optional API key via env var `OPENDOTA_API_KEY` or constructor param for unlimited calls. Two output formats: `format='pydantic'` (default, type-safe) or `format='json'` (raw dicts).
 
 ## Installation
 

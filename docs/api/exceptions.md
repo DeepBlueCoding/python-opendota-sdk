@@ -1,11 +1,8 @@
 # Exceptions
 
-<details>
-<summary><strong>🤖 AI Summary</strong></summary>
+??? info "🤖 AI Summary"
 
-Exception hierarchy: `OpenDotaError` (base) → `OpenDotaAPIError` (has `status_code`) → `OpenDotaRateLimitError` (429), `OpenDotaNotFoundError` (404). Catch specific exceptions first, fallback to `OpenDotaAPIError`. For rate limits, implement exponential backoff retry (2^attempt seconds).
-
-</details>
+    Exception hierarchy: `OpenDotaError` (base) → `OpenDotaAPIError` (has `status_code`) → `OpenDotaRateLimitError` (429), `OpenDotaNotFoundError` (404). Catch specific exceptions first, fallback to `OpenDotaAPIError`. For rate limits, implement exponential backoff retry (2^attempt seconds).
 
 Custom exceptions for handling API errors.
 
