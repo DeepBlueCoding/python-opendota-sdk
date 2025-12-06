@@ -10,10 +10,15 @@
     "aliases": []
   },
   {
-    "version": "7.39.5.1.dev3",
-    "title": "7.39.5.1.dev3",
+    "version": "7.39.5.1.dev4",
+    "title": "7.39.5.1.dev4",
     "aliases": [
       "latest"
     ]
+  },
+  {
+    "version": "7.39.5.1.dev3",
+    "title": "7.39.5.1.dev3",
+    "aliases": []
   }
 ]
