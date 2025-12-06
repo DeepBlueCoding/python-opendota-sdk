@@ -364,7 +364,7 @@ class OpenDota:
         if less_than_match_id is not None:
             params["less_than_match_id"] = less_than_match_id
 
-        data = await self.get("proMatches", params=params)
+        data = await self.get("proMatches", params=params, use_cache=False)
         matches = [ProMatch(**match) for match in data]
         return cast(ProMatchesResponse, self._format_response(matches))
 
