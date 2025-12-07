@@ -1,17 +1,21 @@
 # Getting Started
 
+??? info "🤖 AI Summary"
+
+    Install: `pip install python-opendota-sdk` or `uv add python-opendota-sdk`. Use async context manager: `async with OpenDota() as client`. Optional API key via env var `OPENDOTA_API_KEY` or constructor param for unlimited calls. Two output formats: `format='pydantic'` (default, type-safe) or `format='json'` (raw dicts).
+
 ## Installation
 
 ### From PyPI (Recommended)
 
 ```bash
-pip install python-opendota
+pip install python-opendota-sdk
 ```
 
 Or with uv:
 
 ```bash
-uv add python-opendota
+uv add python-opendota-sdk
 ```
 
 ### From Source

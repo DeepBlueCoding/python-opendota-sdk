@@ -67,11 +67,11 @@ jobs:
   publish-test-pypi:
     name: Publish to TestPyPI
     needs: build
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-') || contains(github.ref, '.dev'))
     runs-on: ubuntu-latest
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/python-opendota
+      url: https://test.pypi.org/p/python-opendota-sdk
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -91,11 +91,11 @@ jobs:
   publish-pypi:
     name: Publish to PyPI
     needs: build
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-') && !contains(github.ref, '.dev')
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/python-opendota
+      url: https://pypi.org/p/python-opendota-sdk
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4

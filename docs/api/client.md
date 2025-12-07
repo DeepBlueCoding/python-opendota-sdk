@@ -1,5 +1,9 @@
 # Client Reference
 
+??? info "🤖 AI Summary"
+
+    **OpenDota class constructor**: `api_key`, `timeout`, `format` ('pydantic'/'json'). **Match methods**: `get_match(id)`, `get_public_matches(mmr_ascending, less_than_match_id)`, `get_pro_matches()`. **Player methods**: `get_player(account_id)`, `get_player_matches(account_id, hero_id, limit, win)`. **Hero methods**: `get_heroes()`, `get_hero_stats()`. **Teams**: `get_teams()`, `get_team(id)`, `get_team_players(id)`, `get_team_matches(id)`. **Leagues**: `get_leagues()`, `get_league(id)`, `get_league_matches(id)`, `get_league_teams(id)`. **Pro Players**: `get_pro_players()`.
+
 ## OpenDota Class
 
 The main client for interacting with the OpenDota API.
@@ -150,3 +154,129 @@ hero_stats = await client.get_hero_stats()
 ```
 
 **Returns:** `List[HeroStats]` or `List[dict]`
+
+## Team Methods
+
+### get_teams
+
+Get all teams sorted by rating.
+
+```python
+teams = await client.get_teams()
+```
+
+**Returns:** `List[Team]` or `List[dict]`
+
+### get_team
+
+Get team details by ID.
+
+```python
+team = await client.get_team(8599101)  # Team Spirit
+```
+
+**Parameters:**
+
+- `team_id` (int): The team ID to retrieve
+
+**Returns:** `Team` model or dict
+
+### get_team_players
+
+Get team roster (current and past players).
+
+```python
+players = await client.get_team_players(8599101)
+```
+
+**Parameters:**
+
+- `team_id` (int): The team ID
+
+**Returns:** `List[TeamPlayer]` or `List[dict]`
+
+### get_team_matches
+
+Get team match history.
+
+```python
+matches = await client.get_team_matches(8599101)
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `team_id` | `int` | The team ID (required) |
+| `limit` | `int` | Number of matches to return (optional) |
+
+**Returns:** `List[TeamMatch]` or `List[dict]`
+
+## League Methods
+
+### get_leagues
+
+Get all leagues/tournaments.
+
+```python
+leagues = await client.get_leagues()
+```
+
+**Returns:** `List[League]` or `List[dict]`
+
+### get_league
+
+Get league details by ID.
+
+```python
+league = await client.get_league(15728)  # The International
+```
+
+**Parameters:**
+
+- `league_id` (int): The league ID to retrieve
+
+**Returns:** `League` model or dict
+
+### get_league_matches
+
+Get matches from a league.
+
+```python
+matches = await client.get_league_matches(15728, limit=50)
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `league_id` | `int` | The league ID (required) |
+| `limit` | `int` | Number of matches to return (optional) |
+
+**Returns:** `List[LeagueMatch]` or `List[dict]`
+
+### get_league_teams
+
+Get teams participating in a league.
+
+```python
+teams = await client.get_league_teams(15728)
+```
+
+**Parameters:**
+
+- `league_id` (int): The league ID
+
+**Returns:** `List[LeagueTeam]` or `List[dict]`
+
+## Pro Player Methods
+
+### get_pro_players
+
+Get all professional players.
+
+```python
+pro_players = await client.get_pro_players()
+```
+
+**Returns:** `List[ProPlayer]` or `List[dict]`

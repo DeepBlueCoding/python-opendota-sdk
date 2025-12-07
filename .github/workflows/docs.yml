@@ -36,11 +36,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Deploy docs (tag)
+      - name: Deploy docs (release tag)
         if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-')
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          echo "Deploying tag: $VERSION"
+          echo "Deploying release tag: $VERSION"
           mike deploy --push --update-aliases $VERSION latest
           mike set-default --push latest
 
@@ -48,4 +48,5 @@ jobs:
         if: github.ref == 'refs/heads/master'
         run: |
           echo "Deploying master branch"
-          mike deploy --push dev
+          mike deploy --push --update-aliases master latest
+          mike set-default --push latest
