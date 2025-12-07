@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://deepbluecoding.github.io/python-opendota-sdk/7.39.5.2/</loc>
+         <lastmod>2025-12-07</lastmod>
+    </url>
+    <url>
+         <loc>https://deepbluecoding.github.io/python-opendota-sdk/7.39.5.2/changelog/</loc>
+         <lastmod>2025-12-07</lastmod>
+    </url>
+    <url>
+         <loc>https://deepbluecoding.github.io/python-opendota-sdk/7.39.5.2/examples/</loc>
+         <lastmod>2025-12-07</lastmod>
+    </url>
+    <url>
+         <loc>https://deepbluecoding.github.io/python-opendota-sdk/7.39.5.2/getting-started/</loc>
+         <lastmod>2025-12-07</lastmod>
+    </url>
+    <url>
+         <loc>https://deepbluecoding.github.io/python-opendota-sdk/7.39.5.2/api/client/</loc>
+         <lastmod>2025-12-07</lastmod>
+    </url>
+    <url>
+         <loc>https://deepbluecoding.github.io/python-opendota-sdk/7.39.5.2/api/exceptions/</loc>
+         <lastmod>2025-12-07</lastmod>
+    </url>
+    <url>
+         <loc>https://deepbluecoding.github.io/python-opendota-sdk/7.39.5.2/api/models/</loc>
+         <lastmod>2025-12-07</lastmod>
+    </url>
+</urlset>
