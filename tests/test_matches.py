@@ -8,6 +8,7 @@ import pytest
 sys.path.insert(0, 'src')
 from opendota.client import OpenDota
 from opendota.exceptions import OpenDotaNotFoundError
+from opendota.models import ChatMessage, DraftTiming, Match, MatchLeague, MatchTeam, Player
 
 
 class TestMatches:
@@ -179,3 +180,479 @@ class TestMatches:
             assert "match_id" in first_parsed
             assert isinstance(first_parsed["match_id"], int)
             assert first_parsed["match_id"] > 0
+
+    @pytest.mark.asyncio
+    async def test_match_team_information_ti2025(self, client):
+        """Test match team fields with TI 2025 match (Xtreme Gaming vs Team Falcons)."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        # Radiant team: Xtreme Gaming
+        assert match.radiant_team_id == 8261500
+        assert match.radiant_name == "Xtreme Gaming"
+        assert match.radiant_logo == 2402194226059610600
+        assert match.radiant_captain == 137129583
+
+        # Dire team: Team Falcons
+        assert match.dire_team_id == 9247354
+        assert match.dire_name == "Team Falcons"
+        assert match.dire_logo == 2314350571781870000
+        assert match.dire_captain == 183719386
+
+    @pytest.mark.asyncio
+    async def test_match_league_information_ti2025(self, client):
+        """Test league object with TI 2025 match."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        # League information
+        assert match.league is not None
+        assert match.league.leagueid == 18324
+        assert match.league.name == "The International 2025"
+        assert match.league.tier == "premium"
+
+    @pytest.mark.asyncio
+    async def test_match_draft_timings(self, client):
+        """Test draft timing data with TI 2025 match."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        # Draft timings should exist for pro matches
+        assert match.draft_timings is not None
+        assert len(match.draft_timings) == 24  # 10 picks + 14 bans in captains mode
+
+        # Test first draft timing entry
+        first_draft = match.draft_timings[0]
+        assert isinstance(first_draft, DraftTiming)
+        assert first_draft.order >= 0
+        assert isinstance(first_draft.pick, bool)
+        assert first_draft.active_team in [0, 1, 2, 3]
+        assert first_draft.hero_id >= 0
+
+    @pytest.mark.asyncio
+    async def test_match_analysis_flags(self, client):
+        """Test match analysis flags (comeback/stomp indicators)."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        # Analysis flags exist
+        assert match.comeback is not None
+        assert match.stomp is not None
+
+        # Values from real match
+        assert match.comeback == 463
+        assert match.stomp == 29353
+
+        # Pre-game duration
+        assert match.pre_game_duration == 90
+
+    @pytest.mark.asyncio
+    async def test_match_chat_messages(self, client):
+        """Test chat messages in match."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        # Chat should exist
+        assert match.chat is not None
+        assert len(match.chat) == 37  # Exact count from real match
+
+        # Test chat message structure
+        first_chat = match.chat[0]
+        assert isinstance(first_chat, ChatMessage)
+        assert isinstance(first_chat.time, int)
+
+    @pytest.mark.asyncio
+    async def test_player_new_identity_fields(self, client):
+        """Test new player identity fields."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        p0 = match.players[0]
+
+        # Hero variant (persona/arcana variant)
+        assert p0.hero_variant == 2
+
+        # Player identity
+        assert p0.personaname == "念头通达"
+
+        # Team indicator
+        assert p0.isRadiant is True
+
+        # Party size (5-stack pro team)
+        assert p0.party_size == 10
+
+    @pytest.mark.asyncio
+    async def test_player_item_neutral2(self, client):
+        """Test second neutral item slot."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        p0 = match.players[0]
+
+        # Second neutral item slot
+        assert p0.item_neutral2 == 1584
+
+    @pytest.mark.asyncio
+    async def test_player_laning_fields(self, client):
+        """Test player laning phase data."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        # Player 0 - Juggernaut (carry)
+        p0 = match.players[0]
+        assert p0.lane == 1  # Safelane
+        assert p0.lane_role == 1  # Core role
+
+        # Lane efficiency should be high for carry
+        assert p0.lane_efficiency is not None
+        assert 0.8 <= p0.lane_efficiency <= 0.9  # ~83.4%
+
+    @pytest.mark.asyncio
+    async def test_player_combat_stats(self, client):
+        """Test player combat statistics."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        p0 = match.players[0]
+
+        # KDA
+        assert p0.kda is not None
+        assert p0.kda == 1.25  # (4 kills + 1 assist) / 3 deaths
+
+        # Tower kills
+        assert p0.tower_kills == 0
+
+        # Rune pickups
+        assert p0.rune_pickups == 1
+
+        # Teamfight participation
+        assert p0.teamfight_participation is not None
+        assert 0.4 <= p0.teamfight_participation <= 0.5
+
+    @pytest.mark.asyncio
+    async def test_player_support_ward_stats(self, client):
+        """Test support player ward placement stats."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        # Player 5 - KOTL (support, Team Falcons)
+        p5 = match.players[5]
+
+        # Ward placement - supports should have high counts
+        assert p5.obs_placed == 8
+        assert p5.sen_placed == 23
+
+        # Camps stacked
+        assert p5.camps_stacked == 1
+
+        # High teamfight participation for support
+        assert p5.teamfight_participation == 0.625
+
+    @pytest.mark.asyncio
+    async def test_player_time_series_data(self, client):
+        """Test player time series data (gold over time, etc.)."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        p0 = match.players[0]
+
+        # Gold over time
+        assert p0.gold_t is not None
+        assert len(p0.gold_t) == 59  # One entry per minute
+
+        # Gold should generally increase over time for carry
+        assert p0.gold_t[0] < p0.gold_t[-1]
+
+        # XP over time
+        assert p0.xp_t is not None
+        assert len(p0.xp_t) > 0
+
+        # Last hits over time
+        assert p0.lh_t is not None
+        assert len(p0.lh_t) > 0
+
+    @pytest.mark.asyncio
+    async def test_player_detailed_breakdowns(self, client):
+        """Test player detailed breakdown dictionaries."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        p0 = match.players[0]
+
+        # Benchmarks (performance comparisons)
+        assert p0.benchmarks is not None
+        assert isinstance(p0.benchmarks, dict)
+
+        # Ability uses
+        assert p0.ability_uses is not None
+        assert isinstance(p0.ability_uses, dict)
+
+        # Purchase log
+        assert p0.purchase_log is not None
+        assert len(p0.purchase_log) == 42  # Exact count from real match
+
+    @pytest.mark.asyncio
+    async def test_player_radiant_dire_separation(self, client):
+        """Test isRadiant field correctly separates teams."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        radiant_players = [p for p in match.players if p.isRadiant is True]
+        dire_players = [p for p in match.players if p.isRadiant is False]
+
+        assert len(radiant_players) == 5
+        assert len(dire_players) == 5
+
+        # Radiant players should have slots 0-4
+        for p in radiant_players:
+            assert p.player_slot < 128
+
+        # Dire players should have slots 128+
+        for p in dire_players:
+            assert p.player_slot >= 128
+
+    @pytest.mark.asyncio
+    async def test_match_team_objects(self, client):
+        """Test embedded team objects in match."""
+        match_id = 8461956309
+        match = await client.get_match(match_id)
+
+        # Team objects may or may not be present
+        if match.radiant_team is not None:
+            assert isinstance(match.radiant_team, MatchTeam)
+
+        if match.dire_team is not None:
+            assert isinstance(match.dire_team, MatchTeam)
+
+
+class TestPublicMatchNewFields:
+    """Test new fields with public ranked match 8607246638 (non-pro match)."""
+
+    @pytest.fixture
+    async def client(self):
+        """Create a test client."""
+        async with OpenDota() as client:
+            yield client
+
+    @pytest.mark.asyncio
+    async def test_public_match_basic_data(self, client):
+        """Test basic match data for public ranked match."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        # Basic match properties
+        assert match.match_id == 8607246638
+        assert match.duration == 3529  # ~58 min game
+        assert match.radiant_win is False
+        assert match.radiant_score == 44
+        assert match.dire_score == 46
+        assert match.game_mode == 22  # All Pick Ranked
+        assert match.lobby_type == 0  # Public match
+        assert len(match.players) == 10
+
+    @pytest.mark.asyncio
+    async def test_public_match_no_team_info(self, client):
+        """Test that public matches don't have team information."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        # Public matches should not have pro team info
+        assert match.radiant_team_id is None
+        assert match.radiant_name is None
+        assert match.dire_team_id is None
+        assert match.dire_name is None
+        assert match.radiant_captain is None
+        assert match.dire_captain is None
+
+    @pytest.mark.asyncio
+    async def test_public_match_no_league(self, client):
+        """Test that public matches don't have league information."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        # Public matches should not have league info
+        assert match.league is None
+        assert match.leagueid is None or match.leagueid == 0
+
+    @pytest.mark.asyncio
+    async def test_public_match_no_draft_timings(self, client):
+        """Test that All Pick matches don't have draft timings."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        # All Pick doesn't have draft phase like Captains Mode
+        assert match.draft_timings is None or len(match.draft_timings) == 0
+
+    @pytest.mark.asyncio
+    async def test_public_match_pre_game_duration(self, client):
+        """Test pre-game duration exists for public match."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        assert match.pre_game_duration == 90
+
+    @pytest.mark.asyncio
+    async def test_public_match_player_hero_variant(self, client):
+        """Test hero variant field in public match."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        # Player 0 - Sven with hero variant
+        p0 = match.players[0]
+        assert p0.hero_id == 18  # Sven
+        assert p0.hero_variant == 2
+
+    @pytest.mark.asyncio
+    async def test_public_match_dual_neutral_items(self, client):
+        """Test both neutral item slots in public match."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        # Player 0 has both neutral items
+        p0 = match.players[0]
+        assert p0.item_neutral == 1643
+        assert p0.item_neutral2 == 1586
+
+    @pytest.mark.asyncio
+    async def test_public_match_player_kda(self, client):
+        """Test KDA calculation in public match."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        # Player 0 - Sven with 25/11/12
+        p0 = match.players[0]
+        assert p0.kills == 25
+        assert p0.deaths == 11
+        assert p0.assists == 12
+
+        # KDA = (25 + 12) / 11 = 3.36... but API shows 3.08
+        # API calculates differently, just verify it exists and is reasonable
+        assert p0.kda is not None
+        assert 3.0 <= p0.kda <= 3.5
+
+    @pytest.mark.asyncio
+    async def test_public_match_player_benchmarks(self, client):
+        """Test benchmarks exist for public match players."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        p0 = match.players[0]
+        assert p0.benchmarks is not None
+        assert isinstance(p0.benchmarks, dict)
+
+    @pytest.mark.asyncio
+    async def test_public_match_isRadiant_separation(self, client):
+        """Test isRadiant correctly separates teams in public match."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        radiant = [p for p in match.players if p.isRadiant is True]
+        dire = [p for p in match.players if p.isRadiant is False]
+
+        assert len(radiant) == 5
+        assert len(dire) == 5
+
+        # Verify slot alignment
+        for p in radiant:
+            assert p.player_slot < 128
+        for p in dire:
+            assert p.player_slot >= 128
+
+    @pytest.mark.asyncio
+    async def test_public_match_high_kill_game(self, client):
+        """Test high-kill game statistics consistency."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        # Total kills should be close to scores (may differ due to neutral kills, denies, etc.)
+        radiant_kills = sum(p.kills for p in match.players if p.isRadiant)
+        dire_kills = sum(p.kills for p in match.players if not p.isRadiant)
+
+        # Radiant: 44 kills exact
+        assert radiant_kills == match.radiant_score  # 44
+
+        # Dire: kills should be close to score (may have 1-2 difference from neutral/misc kills)
+        assert abs(dire_kills - match.dire_score) <= 2
+
+    @pytest.mark.asyncio
+    async def test_public_match_player_names(self, client):
+        """Test player names in public match (some may be anonymous)."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        # Some players have names, some are anonymous
+        players_with_names = [p for p in match.players if p.personaname is not None]
+
+        # At least some players should have names
+        # Note: Player 2 has "PhenomenalOneAGS", Player 3 has "Me lleva la que me trajo", etc.
+        assert len(players_with_names) >= 3
+
+    @pytest.mark.asyncio
+    async def test_public_match_unparsed_fields_are_none(self, client):
+        """Test that unparsed match fields are None, not errors."""
+        match_id = 8607246638
+        match = await client.get_match(match_id)
+
+        p0 = match.players[0]
+
+        # These fields may be None in unparsed/partially parsed matches
+        # The key is they don't raise errors
+        assert p0.lane is None or isinstance(p0.lane, int)
+        assert p0.lane_role is None or isinstance(p0.lane_role, int)
+        assert p0.lane_efficiency is None or isinstance(p0.lane_efficiency, float)
+        assert p0.gold_t is None or isinstance(p0.gold_t, list)
+        assert p0.obs_placed is None or isinstance(p0.obs_placed, int)
+
+
+class TestProVsPublicMatchComparison:
+    """Compare pro match vs public match field availability."""
+
+    @pytest.fixture
+    async def client(self):
+        """Create a test client."""
+        async with OpenDota() as client:
+            yield client
+
+    @pytest.mark.asyncio
+    async def test_pro_match_has_more_data(self, client):
+        """Test that pro matches have richer data than public matches."""
+        pro_match = await client.get_match(8461956309)  # TI 2025
+        pub_match = await client.get_match(8607246638)  # Public ranked
+
+        # Pro match should have team info
+        assert pro_match.radiant_team_id is not None
+        assert pub_match.radiant_team_id is None
+
+        # Pro match should have league info
+        assert pro_match.league is not None
+        assert pub_match.league is None
+
+        # Pro match should have draft timings (Captains Mode)
+        assert pro_match.draft_timings is not None and len(pro_match.draft_timings) > 0
+        assert pub_match.draft_timings is None or len(pub_match.draft_timings) == 0
+
+        # Pro match should have chat
+        assert pro_match.chat is not None and len(pro_match.chat) > 0
+
+    @pytest.mark.asyncio
+    async def test_both_matches_have_core_player_fields(self, client):
+        """Test that both pro and public matches have core player fields."""
+        pro_match = await client.get_match(8461956309)
+        pub_match = await client.get_match(8607246638)
+
+        for match in [pro_match, pub_match]:
+            p0 = match.players[0]
+
+            # Core fields should always exist
+            assert p0.hero_id is not None
+            assert p0.player_slot is not None
+            assert p0.kills is not None
+            assert p0.deaths is not None
+            assert p0.assists is not None
+            assert p0.isRadiant is not None
+
+            # New fields should exist (even if None in some cases)
+            assert hasattr(p0, 'hero_variant')
+            assert hasattr(p0, 'item_neutral2')
+            assert hasattr(p0, 'kda')
+            assert hasattr(p0, 'benchmarks')

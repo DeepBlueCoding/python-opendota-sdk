@@ -2,7 +2,7 @@
 
 ??? info "🤖 AI Summary"
 
-    Code examples for common tasks: **Match analysis** - get KDA, GPM, winner. **Player tracking** - profile, recent matches, winrate, most played heroes. **Meta heroes** - filter by pro pick rates, sort by win rate. **Player comparison** - compare stats between two players. **Pro match monitor** - poll for new pro matches. **Batch collection** - paginate through high MMR matches with rate limiting.
+    Code examples for common tasks: **Match analysis** - get KDA, GPM, winner. **Player tracking** - profile, recent matches, winrate, most played heroes. **Meta heroes** - filter by pro pick rates, sort by win rate. **Player comparison** - compare stats between two players. **Pro match monitor** - poll for new pro matches. **Batch collection** - paginate through high MMR matches with rate limiting. **New in 7.40**: Draft analysis, support stats (wards, stacking), laning efficiency, gold/XP timelines, hero variants, comeback detection.
 
 ## Analyze Match Performance
 
@@ -179,4 +179,187 @@ async def collect_high_mmr_matches(count: int = 100):
 
         print(f"Collected {len(all_matches)} high MMR matches")
         return all_matches[:count]
+```
+
+## Analyze Pro Match Draft (New in 7.40)
+
+```python
+from opendota import OpenDota
+
+async def analyze_draft(match_id: int):
+    async with OpenDota() as client:
+        match = await client.get_match(match_id)
+
+        if not match.draft_timings:
+            print("No draft data (not Captains Mode)")
+            return
+
+        # Get hero names
+        heroes = await client.get_heroes()
+        hero_names = {h.id: h.localized_name for h in heroes}
+
+        print(f"Draft: {match.radiant_name} vs {match.dire_name}")
+        print(f"Tournament: {match.league.name}\n")
+
+        bans = [d for d in match.draft_timings if not d.pick]
+        picks = [d for d in match.draft_timings if d.pick]
+
+        print("Bans:")
+        for ban in bans:
+            team = match.radiant_name if ban.active_team == 0 else match.dire_name
+            hero = hero_names.get(ban.hero_id, "Unknown")
+            print(f"  {team}: {hero}")
+
+        print("\nPicks:")
+        for pick in picks:
+            team = match.radiant_name if pick.active_team == 0 else match.dire_name
+            hero = hero_names.get(pick.hero_id, "Unknown")
+            print(f"  {team}: {hero}")
+```
+
+## Support Player Analysis (New in 7.40)
+
+```python
+from opendota import OpenDota
+
+async def analyze_supports(match_id: int):
+    async with OpenDota() as client:
+        match = await client.get_match(match_id)
+        heroes = await client.get_heroes()
+        hero_names = {h.id: h.localized_name for h in heroes}
+
+        print(f"Support Analysis: {match.radiant_name} vs {match.dire_name}\n")
+
+        # Find supports by ward placement
+        supports = sorted(
+            match.players,
+            key=lambda p: (p.obs_placed or 0) + (p.sen_placed or 0),
+            reverse=True
+        )[:4]  # Top 4 ward placers
+
+        for player in supports:
+            team = "Radiant" if player.isRadiant else "Dire"
+            hero = hero_names.get(player.hero_id, "Unknown")
+
+            print(f"[{team}] {player.personaname} - {hero}")
+            print(f"  Wards: {player.obs_placed or 0} obs, {player.sen_placed or 0} sen")
+            print(f"  Camps stacked: {player.camps_stacked or 0}")
+            print(f"  Teamfight: {(player.teamfight_participation or 0) * 100:.0f}%")
+            print()
+```
+
+## Laning Phase Analysis (New in 7.40)
+
+```python
+from opendota import OpenDota
+
+async def analyze_laning(match_id: int):
+    async with OpenDota() as client:
+        match = await client.get_match(match_id)
+        heroes = await client.get_heroes()
+        hero_names = {h.id: h.localized_name for h in heroes}
+
+        lane_names = {1: "Safelane", 2: "Mid", 3: "Offlane"}
+
+        print("Laning Phase Analysis\n")
+
+        for team_name, is_radiant in [("Radiant", True), ("Dire", False)]:
+            print(f"{team_name}:")
+            team_players = [p for p in match.players if p.isRadiant == is_radiant]
+
+            for player in sorted(team_players, key=lambda p: p.lane or 0):
+                hero = hero_names.get(player.hero_id, "Unknown")
+                lane = lane_names.get(player.lane, "Unknown")
+                eff = (player.lane_efficiency or 0) * 100
+
+                print(f"  {hero} ({lane}): {eff:.0f}% efficiency")
+
+            print()
+```
+
+## Gold/XP Timeline (New in 7.40)
+
+```python
+from opendota import OpenDota
+
+async def plot_economy(match_id: int):
+    async with OpenDota() as client:
+        match = await client.get_match(match_id)
+
+        # Get carry players (highest GPM)
+        carries = sorted(match.players, key=lambda p: p.gold_per_min, reverse=True)[:2]
+
+        for player in carries:
+            if not player.gold_t:
+                continue
+
+            team = "Radiant" if player.isRadiant else "Dire"
+            print(f"[{team}] {player.personaname}")
+            print(f"  Final gold: {player.gold_t[-1]:,}")
+            print(f"  10 min gold: {player.gold_t[10]:,}")
+            print(f"  20 min gold: {player.gold_t[20]:,}")
+
+            # Calculate gold gained per phase
+            laning = player.gold_t[10] - player.gold_t[0]
+            mid = player.gold_t[20] - player.gold_t[10]
+            late = player.gold_t[-1] - player.gold_t[20]
+
+            print(f"  Laning (0-10): +{laning:,}")
+            print(f"  Mid (10-20): +{mid:,}")
+            print(f"  Late (20+): +{late:,}")
+            print()
+```
+
+## Hero Variant Tracking (New in 7.40)
+
+```python
+from opendota import OpenDota
+
+async def find_arcana_games(hero_id: int, limit: int = 100):
+    """Find recent games where players used hero personas/arcanas."""
+    async with OpenDota() as client:
+        heroes = await client.get_heroes()
+        hero_name = next((h.localized_name for h in heroes if h.id == hero_id), "Unknown")
+
+        matches = await client.get_public_matches()
+        arcana_count = 0
+
+        for pub_match in matches[:limit]:
+            match = await client.get_match(pub_match.match_id)
+
+            for player in match.players:
+                if player.hero_id == hero_id and player.hero_variant and player.hero_variant > 0:
+                    arcana_count += 1
+                    print(f"Match {match.match_id}: {hero_name} variant {player.hero_variant}")
+
+        print(f"\nFound {arcana_count} games with {hero_name} arcana/persona")
+```
+
+## Match Comeback Detection (New in 7.40)
+
+```python
+from opendota import OpenDota
+
+async def find_comebacks():
+    async with OpenDota() as client:
+        pro_matches = await client.get_pro_matches()
+
+        comebacks = []
+        for pm in pro_matches[:20]:
+            match = await client.get_match(pm.match_id)
+
+            if match.comeback and match.comeback > 1000:
+                comebacks.append({
+                    "match_id": match.match_id,
+                    "teams": f"{match.radiant_name} vs {match.dire_name}",
+                    "comeback": match.comeback,
+                    "winner": match.radiant_name if match.radiant_win else match.dire_name
+                })
+
+        print("Recent Comeback Games:")
+        for game in sorted(comebacks, key=lambda x: x["comeback"], reverse=True):
+            print(f"  {game['teams']}")
+            print(f"    Comeback score: {game['comeback']:.0f}")
+            print(f"    Winner: {game['winner']}")
+            print()
 ```

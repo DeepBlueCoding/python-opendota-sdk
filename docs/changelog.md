@@ -2,12 +2,63 @@
 
 ??? info "🤖 AI Summary"
 
-    Version scheme: `{dota_major}.{dota_minor}.{dota_letter}.{sdk_release}` (e.g., 7.39.5.1 = Dota patch 7.39e, first SDK release). Current version adds: async httpx client, Pydantic models, matches/players/heroes/teams/leagues/pro_players endpoints, error handling, rate limiting, API key support, caching.
+    Version scheme: `{dota_major}.{dota_minor}.{dota_letter}.{sdk_release}` (e.g., 7.40.0 = Dota patch 7.40, initial SDK release). Current version adds: async httpx client, Pydantic models, matches/players/heroes/teams/leagues/pro_players endpoints, error handling, rate limiting, API key support, caching.
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [7.40.1] - 2025-12-16
+
+### Added
+
+#### New Match Fields
+- **Team Information**: `radiant_team_id`, `radiant_name`, `radiant_logo`, `radiant_captain`, `dire_team_id`, `dire_name`, `dire_logo`, `dire_captain`, `radiant_team_complete`, `dire_team_complete`
+- **Team Objects**: `radiant_team`, `dire_team` (embedded `MatchTeam` models)
+- **League Object**: `league` (embedded `MatchLeague` model with `leagueid`, `name`, `tier`, `banner`)
+- **Draft Timing**: `draft_timings` (list of `DraftTiming` with pick order, timing, hero selection)
+- **Match Analysis**: `comeback`, `stomp`, `pre_game_duration`, `flags`
+- **Chat**: `chat` (list of `ChatMessage` with time, type, key, slot)
+- **Metadata**: `pauses`, `metadata`, `od_data`, `cosmetics`, `all_word_counts`, `my_word_counts`
+
+#### New Player Fields (within Match)
+- **Identity**: `hero_variant`, `personaname`, `name`, `rank_tier`, `is_contributor`, `is_subscriber`
+- **Items**: `item_neutral2` (second neutral item slot)
+- **Team Context**: `isRadiant`, `radiant_win`, `win`, `lose`, `team_number`, `team_slot`
+- **Match Metadata**: `duration`, `game_mode`, `lobby_type`, `cluster`, `patch`, `region`, `start_time`
+- **Laning**: `lane`, `lane_role`, `lane_kills`, `lane_efficiency`, `lane_efficiency_pct`, `is_roaming`
+- **Party**: `party_id`, `party_size`
+- **Combat Stats**: `kda`, `hero_kills`, `tower_kills`, `courier_kills`, `observer_kills`, `sentry_kills`, `roshan_kills`, `ancient_kills`, `neutral_kills`, `necronomicon_kills`
+- **Ward Placement**: `obs_placed`, `sen_placed`, `observers_placed`, `observer_uses`, `sentry_uses`
+- **Economy**: `total_gold`, `total_xp`, `kills_per_min`, `actions_per_min`
+- **Farming**: `camps_stacked`, `creeps_stacked`, `rune_pickups`, `buyback_count`
+- **Teamfight**: `teamfight_participation`, `stuns`, `firstblood_claimed`
+- **Time Series**: `gold_t`, `xp_t`, `lh_t`, `dn_t`, `times`
+- **Detailed Breakdowns**: `benchmarks`, `gold_reasons`, `xp_reasons`, `damage`, `damage_taken`, `damage_inflictor`, `damage_inflictor_received`, `damage_targets`, `hero_hits`, `ability_targets`, `ability_uses`, `ability_upgrades_arr`, `item_uses`, `item_usage`, `item_win`, `purchase`, `purchase_time`, `first_purchase_time`, `actions`, `killed`, `killed_by`, `kill_streaks`, `multi_kills`, `runes`, `healing`, `life_state`, `lane_pos`, `obs`, `sen`, `cosmetics`, `permanent_buffs`, `connection_log`
+- **Logs**: `kills_log`, `buyback_log`, `purchase_log`, `runes_log`, `obs_log`, `sen_log`, `obs_left_log`, `sen_left_log`, `neutral_item_history`, `neutral_tokens_log`
+
+#### New Models
+- `MatchTeam` - Team data within a match
+- `MatchLeague` - League information within a match
+- `DraftTiming` - Draft timing data for picks/bans
+- `ChatMessage` - Chat message structure
+
+### Changed
+- `computed_mmr` type changed from `int` to `float` (API returns decimals)
+- `last_login` type changed from `int` to `str` (API returns ISO datetime strings)
+- `cosmetics` type changed from `List[int]` to `List[Dict]` (API returns full item details)
+- `radiant_logo` and `dire_logo` types changed to `int` (API returns numeric IDs)
+
+### Testing
+- Added 29 new tests for new fields (78 total)
+- Test coverage for pro matches (TI 2025) and public ranked matches
+- Comparison tests between pro and public match data availability
+
+## [7.39.5.2] - 2025-12-15
+
+### Fixed
+- Minor bug fixes and stability improvements
 
 ## [7.39.5.1.dev2] - 2025-12-03
 
