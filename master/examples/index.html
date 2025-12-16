@@ -699,6 +699,72 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#analyze-pro-match-draft-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyze Pro Match Draft (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support-player-analysis-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support Player Analysis (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#laning-phase-analysis-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Laning Phase Analysis (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goldxp-timeline-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gold/XP Timeline (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hero-variant-tracking-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hero Variant Tracking (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#match-comeback-detection-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Match Comeback Detection (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -826,6 +892,72 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#analyze-pro-match-draft-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyze Pro Match Draft (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support-player-analysis-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support Player Analysis (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#laning-phase-analysis-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Laning Phase Analysis (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goldxp-timeline-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gold/XP Timeline (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hero-variant-tracking-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hero Variant Tracking (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#match-comeback-detection-new-in-740" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Match Comeback Detection (New in 7.40)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -849,7 +981,7 @@
 <h1 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h1>
 <details class="info">
 <summary>🤖 AI Summary</summary>
-<p>Code examples for common tasks: <strong>Match analysis</strong> - get KDA, GPM, winner. <strong>Player tracking</strong> - profile, recent matches, winrate, most played heroes. <strong>Meta heroes</strong> - filter by pro pick rates, sort by win rate. <strong>Player comparison</strong> - compare stats between two players. <strong>Pro match monitor</strong> - poll for new pro matches. <strong>Batch collection</strong> - paginate through high MMR matches with rate limiting.</p>
+<p>Code examples for common tasks: <strong>Match analysis</strong> - get KDA, GPM, winner. <strong>Player tracking</strong> - profile, recent matches, winrate, most played heroes. <strong>Meta heroes</strong> - filter by pro pick rates, sort by win rate. <strong>Player comparison</strong> - compare stats between two players. <strong>Pro match monitor</strong> - poll for new pro matches. <strong>Batch collection</strong> - paginate through high MMR matches with rate limiting. <strong>New in 7.40</strong>: Draft analysis, support stats (wards, stacking), laning efficiency, gold/XP timelines, hero variants, comeback detection.</p>
 </details>
 <h2 id="analyze-match-performance">Analyze Match Performance<a class="headerlink" href="#analyze-match-performance" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opendota</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDota</span>
@@ -1009,6 +1141,171 @@
 <a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
 <a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Collected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_matches</span><span class="p">)</span><span class="si">}</span><span class="s2"> high MMR matches&quot;</span><span class="p">)</span>
 <a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>        <span class="k">return</span> <span class="n">all_matches</span><span class="p">[:</span><span class="n">count</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="analyze-pro-match-draft-new-in-740">Analyze Pro Match Draft (New in 7.40)<a class="headerlink" href="#analyze-pro-match-draft-new-in-740" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opendota</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDota</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">analyze_draft</span><span class="p">(</span><span class="n">match_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">OpenDota</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="n">match</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_match</span><span class="p">(</span><span class="n">match_id</span><span class="p">)</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="o">.</span><span class="n">draft_timings</span><span class="p">:</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No draft data (not Captains Mode)&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>            <span class="k">return</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>        <span class="c1"># Get hero names</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>        <span class="n">heroes</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_heroes</span><span class="p">()</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="n">hero_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">h</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">localized_name</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">heroes</span><span class="p">}</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Draft: </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">radiant_name</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">dire_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tournament: </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">league</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>        <span class="n">bans</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">match</span><span class="o">.</span><span class="n">draft_timings</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="o">.</span><span class="n">pick</span><span class="p">]</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>        <span class="n">picks</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">match</span><span class="o">.</span><span class="n">draft_timings</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">pick</span><span class="p">]</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bans:&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>        <span class="k">for</span> <span class="n">ban</span> <span class="ow">in</span> <span class="n">bans</span><span class="p">:</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>            <span class="n">team</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">radiant_name</span> <span class="k">if</span> <span class="n">ban</span><span class="o">.</span><span class="n">active_team</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">match</span><span class="o">.</span><span class="n">dire_name</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>            <span class="n">hero</span> <span class="o">=</span> <span class="n">hero_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ban</span><span class="o">.</span><span class="n">hero_id</span><span class="p">,</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">team</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">hero</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Picks:&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>        <span class="k">for</span> <span class="n">pick</span> <span class="ow">in</span> <span class="n">picks</span><span class="p">:</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>            <span class="n">team</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">radiant_name</span> <span class="k">if</span> <span class="n">pick</span><span class="o">.</span><span class="n">active_team</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">match</span><span class="o">.</span><span class="n">dire_name</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>            <span class="n">hero</span> <span class="o">=</span> <span class="n">hero_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pick</span><span class="o">.</span><span class="n">hero_id</span><span class="p">,</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">team</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">hero</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="support-player-analysis-new-in-740">Support Player Analysis (New in 7.40)<a class="headerlink" href="#support-player-analysis-new-in-740" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opendota</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDota</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">analyze_supports</span><span class="p">(</span><span class="n">match_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">OpenDota</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>        <span class="n">match</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_match</span><span class="p">(</span><span class="n">match_id</span><span class="p">)</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>        <span class="n">heroes</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_heroes</span><span class="p">()</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>        <span class="n">hero_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">h</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">localized_name</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">heroes</span><span class="p">}</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Support Analysis: </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">radiant_name</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">dire_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>        <span class="c1"># Find supports by ward placement</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>        <span class="n">supports</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>            <span class="k">match</span><span class="o">.</span><span class="n">players</span><span class="p">,</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">obs_placed</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">sen_placed</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">),</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>            <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>        <span class="p">)[:</span><span class="mi">4</span><span class="p">]</span>  <span class="c1"># Top 4 ward placers</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>        <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">supports</span><span class="p">:</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>            <span class="n">team</span> <span class="o">=</span> <span class="s2">&quot;Radiant&quot;</span> <span class="k">if</span> <span class="n">player</span><span class="o">.</span><span class="n">isRadiant</span> <span class="k">else</span> <span class="s2">&quot;Dire&quot;</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>            <span class="n">hero</span> <span class="o">=</span> <span class="n">hero_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">hero_id</span><span class="p">,</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">team</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">personaname</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">hero</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Wards: </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">obs_placed</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s2"> obs, </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">sen_placed</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s2"> sen&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Camps stacked: </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">camps_stacked</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Teamfight: </span><span class="si">{</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">teamfight_participation</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>            <span class="nb">print</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="laning-phase-analysis-new-in-740">Laning Phase Analysis (New in 7.40)<a class="headerlink" href="#laning-phase-analysis-new-in-740" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opendota</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDota</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">analyze_laning</span><span class="p">(</span><span class="n">match_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">OpenDota</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>        <span class="n">match</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_match</span><span class="p">(</span><span class="n">match_id</span><span class="p">)</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>        <span class="n">heroes</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_heroes</span><span class="p">()</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>        <span class="n">hero_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">h</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">localized_name</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">heroes</span><span class="p">}</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>        <span class="n">lane_names</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Safelane&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Mid&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Offlane&quot;</span><span class="p">}</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Laning Phase Analysis</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>        <span class="k">for</span> <span class="n">team_name</span><span class="p">,</span> <span class="n">is_radiant</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;Radiant&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Dire&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]:</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">team_name</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>            <span class="n">team_players</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">match</span><span class="o">.</span><span class="n">players</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">isRadiant</span> <span class="o">==</span> <span class="n">is_radiant</span><span class="p">]</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>            <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">team_players</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">lane</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">):</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>                <span class="n">hero</span> <span class="o">=</span> <span class="n">hero_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">hero_id</span><span class="p">,</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>                <span class="n">lane</span> <span class="o">=</span> <span class="n">lane_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">lane</span><span class="p">,</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>                <span class="n">eff</span> <span class="o">=</span> <span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">lane_efficiency</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">hero</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">lane</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">eff</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">% efficiency&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>            <span class="nb">print</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="goldxp-timeline-new-in-740">Gold/XP Timeline (New in 7.40)<a class="headerlink" href="#goldxp-timeline-new-in-740" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opendota</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDota</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">plot_economy</span><span class="p">(</span><span class="n">match_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">OpenDota</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>        <span class="n">match</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_match</span><span class="p">(</span><span class="n">match_id</span><span class="p">)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>        <span class="c1"># Get carry players (highest GPM)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>        <span class="n">carries</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">players</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">gold_per_min</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>        <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">carries</span><span class="p">:</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>            <span class="k">if</span> <span class="ow">not</span> <span class="n">player</span><span class="o">.</span><span class="n">gold_t</span><span class="p">:</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>                <span class="k">continue</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>            <span class="n">team</span> <span class="o">=</span> <span class="s2">&quot;Radiant&quot;</span> <span class="k">if</span> <span class="n">player</span><span class="o">.</span><span class="n">isRadiant</span> <span class="k">else</span> <span class="s2">&quot;Dire&quot;</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">team</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">personaname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Final gold: </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">gold_t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  10 min gold: </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">gold_t</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  20 min gold: </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">gold_t</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>            <span class="c1"># Calculate gold gained per phase</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>            <span class="n">laning</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">gold_t</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">-</span> <span class="n">player</span><span class="o">.</span><span class="n">gold_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>            <span class="n">mid</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">gold_t</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="o">-</span> <span class="n">player</span><span class="o">.</span><span class="n">gold_t</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>            <span class="n">late</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">gold_t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">player</span><span class="o">.</span><span class="n">gold_t</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Laning (0-10): +</span><span class="si">{</span><span class="n">laning</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Mid (10-20): +</span><span class="si">{</span><span class="n">mid</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Late (20+): +</span><span class="si">{</span><span class="n">late</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>            <span class="nb">print</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="hero-variant-tracking-new-in-740">Hero Variant Tracking (New in 7.40)<a class="headerlink" href="#hero-variant-tracking-new-in-740" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opendota</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDota</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">find_arcana_games</span><span class="p">(</span><span class="n">hero_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Find recent games where players used hero personas/arcanas.&quot;&quot;&quot;</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">OpenDota</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>        <span class="n">heroes</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_heroes</span><span class="p">()</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>        <span class="n">hero_name</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">h</span><span class="o">.</span><span class="n">localized_name</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">heroes</span> <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">hero_id</span><span class="p">),</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="n">matches</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_public_matches</span><span class="p">()</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>        <span class="n">arcana_count</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>        <span class="k">for</span> <span class="n">pub_match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">[:</span><span class="n">limit</span><span class="p">]:</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>            <span class="n">match</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_match</span><span class="p">(</span><span class="n">pub_match</span><span class="o">.</span><span class="n">match_id</span><span class="p">)</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>            <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">match</span><span class="o">.</span><span class="n">players</span><span class="p">:</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>                <span class="k">if</span> <span class="n">player</span><span class="o">.</span><span class="n">hero_id</span> <span class="o">==</span> <span class="n">hero_id</span> <span class="ow">and</span> <span class="n">player</span><span class="o">.</span><span class="n">hero_variant</span> <span class="ow">and</span> <span class="n">player</span><span class="o">.</span><span class="n">hero_variant</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>                    <span class="n">arcana_count</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Match </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">match_id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">hero_name</span><span class="si">}</span><span class="s2"> variant </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">hero_variant</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Found </span><span class="si">{</span><span class="n">arcana_count</span><span class="si">}</span><span class="s2"> games with </span><span class="si">{</span><span class="n">hero_name</span><span class="si">}</span><span class="s2"> arcana/persona&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="match-comeback-detection-new-in-740">Match Comeback Detection (New in 7.40)<a class="headerlink" href="#match-comeback-detection-new-in-740" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opendota</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenDota</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">find_comebacks</span><span class="p">():</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">OpenDota</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>        <span class="n">pro_matches</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_pro_matches</span><span class="p">()</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>        <span class="n">comebacks</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        <span class="k">for</span> <span class="n">pm</span> <span class="ow">in</span> <span class="n">pro_matches</span><span class="p">[:</span><span class="mi">20</span><span class="p">]:</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>            <span class="n">match</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_match</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">match_id</span><span class="p">)</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>            <span class="k">if</span> <span class="n">match</span><span class="o">.</span><span class="n">comeback</span> <span class="ow">and</span> <span class="n">match</span><span class="o">.</span><span class="n">comeback</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">:</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>                <span class="n">comebacks</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>                    <span class="s2">&quot;match_id&quot;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">match_id</span><span class="p">,</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>                    <span class="s2">&quot;teams&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">radiant_name</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">dire_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>                    <span class="s2">&quot;comeback&quot;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">comeback</span><span class="p">,</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>                    <span class="s2">&quot;winner&quot;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">radiant_name</span> <span class="k">if</span> <span class="n">match</span><span class="o">.</span><span class="n">radiant_win</span> <span class="k">else</span> <span class="n">match</span><span class="o">.</span><span class="n">dire_name</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>                <span class="p">})</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recent Comeback Games:&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>        <span class="k">for</span> <span class="n">game</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">comebacks</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;comeback&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">game</span><span class="p">[</span><span class="s1">&#39;teams&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Comeback score: </span><span class="si">{</span><span class="n">game</span><span class="p">[</span><span class="s1">&#39;comeback&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Winner: </span><span class="si">{</span><span class="n">game</span><span class="p">[</span><span class="s1">&#39;winner&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>            <span class="nb">print</span><span class="p">()</span>
 </code></pre></div>
 
 

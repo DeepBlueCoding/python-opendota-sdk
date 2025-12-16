@@ -2,30 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://deepbluecoding.github.io/python-opendota-sdk/master/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-16</lastmod>
     </url>
     <url>
          <loc>https://deepbluecoding.github.io/python-opendota-sdk/master/changelog/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-16</lastmod>
     </url>
     <url>
          <loc>https://deepbluecoding.github.io/python-opendota-sdk/master/examples/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-16</lastmod>
     </url>
     <url>
          <loc>https://deepbluecoding.github.io/python-opendota-sdk/master/getting-started/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-16</lastmod>
     </url>
     <url>
          <loc>https://deepbluecoding.github.io/python-opendota-sdk/master/api/client/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-16</lastmod>
     </url>
     <url>
          <loc>https://deepbluecoding.github.io/python-opendota-sdk/master/api/exceptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-16</lastmod>
     </url>
     <url>
          <loc>https://deepbluecoding.github.io/python-opendota-sdk/master/api/models/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-16</lastmod>
     </url>
 </urlset>
