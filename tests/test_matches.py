@@ -8,7 +8,7 @@ import pytest
 sys.path.insert(0, 'src')
 from opendota.client import OpenDota
 from opendota.exceptions import OpenDotaNotFoundError
-from opendota.models import ChatMessage, DraftTiming, Match, MatchLeague, MatchTeam, Player
+from opendota.models import ChatMessage, DraftTiming, MatchTeam
 
 
 class TestMatches:
