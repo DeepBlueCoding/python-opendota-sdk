@@ -22,7 +22,7 @@ class TestHeroes:
         """Test heroes endpoint returns exact expected data from real API."""
         heroes = await client.get_heroes()
 
-        # Dota 2 has exactly 126 heroes as of this API version
+        # Dota 2 has exactly 126 heroes as of patch 7.39e
         assert len(heroes) == 126
 
         # Test exact first three heroes (always consistent order)
