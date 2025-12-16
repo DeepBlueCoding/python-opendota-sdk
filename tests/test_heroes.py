@@ -22,8 +22,8 @@ class TestHeroes:
         """Test heroes endpoint returns exact expected data from real API."""
         heroes = await client.get_heroes()
 
-        # Dota 2 has exactly 126 heroes as of patch 7.39e
-        assert len(heroes) == 126
+        # Dota 2 has exactly 127 heroes as of patch 7.40
+        assert len(heroes) == 127
 
         # Test exact first three heroes (always consistent order)
         # Hero 0: Anti-Mage (id=1)
@@ -100,15 +100,15 @@ class TestHeroes:
         int_heroes = [h for h in heroes if h.primary_attr == "int"]
         all_heroes = [h for h in heroes if h.primary_attr == "all"]
 
-        # Test exact distribution from real API data
-        assert len(str_heroes) == 35, f"Expected exactly 35 STR heroes, got {len(str_heroes)}"
-        assert len(agi_heroes) == 34, f"Expected exactly 34 AGI heroes, got {len(agi_heroes)}"
+        # Test exact distribution from real API data (patch 7.40)
+        assert len(str_heroes) == 36, f"Expected exactly 36 STR heroes, got {len(str_heroes)}"
+        assert len(agi_heroes) == 35, f"Expected exactly 35 AGI heroes, got {len(agi_heroes)}"
         assert len(int_heroes) == 34, f"Expected exactly 34 INT heroes, got {len(int_heroes)}"
-        assert len(all_heroes) == 23, f"Expected exactly 23 Universal heroes, got {len(all_heroes)}"
+        assert len(all_heroes) == 22, f"Expected exactly 22 Universal heroes, got {len(all_heroes)}"
 
-        # Total should equal exactly 126
+        # Total should equal exactly 127
         total_attributed = len(str_heroes) + len(agi_heroes) + len(int_heroes) + len(all_heroes)
-        assert total_attributed == 126
+        assert total_attributed == 127
 
         # Attack type distribution
         melee_heroes = [h for h in heroes if h.attack_type == "Melee"]
@@ -117,7 +117,7 @@ class TestHeroes:
         # Should have reasonable melee/ranged split
         assert len(melee_heroes) >= 50, f"Expected at least 50 melee heroes, got {len(melee_heroes)}"
         assert len(ranged_heroes) >= 50, f"Expected at least 50 ranged heroes, got {len(ranged_heroes)}"
-        assert len(melee_heroes) + len(ranged_heroes) == 126
+        assert len(melee_heroes) + len(ranged_heroes) == 127
 
     @pytest.mark.asyncio
     async def test_hero_stats_consistency_with_heroes(self, client):
@@ -126,7 +126,7 @@ class TestHeroes:
         hero_stats = await client.get_hero_stats()
 
         # Both endpoints should return same number of heroes
-        assert len(heroes) == len(hero_stats) == 126
+        assert len(heroes) == len(hero_stats) == 127
 
         # Create mappings for comparison
         heroes_by_id = {h.id: h for h in heroes}
