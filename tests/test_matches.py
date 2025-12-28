@@ -7,7 +7,7 @@ import pytest
 
 sys.path.insert(0, 'src')
 from opendota.client import OpenDota
-from opendota.exceptions import OpenDotaNotFoundError
+from opendota.exceptions import OpenDotaNotFoundError, ReplayNotAvailableError
 from opendota.models import ChatMessage, DraftTiming, MatchTeam
 
 
@@ -656,3 +656,164 @@ class TestProVsPublicMatchComparison:
             assert hasattr(p0, 'item_neutral2')
             assert hasattr(p0, 'kda')
             assert hasattr(p0, 'benchmarks')
+
+
+class TestReplayUrlHandling:
+    """Test cases for replay URL availability and ReplayNotAvailableError."""
+
+    @pytest.fixture
+    async def client(self):
+        """Create a test client."""
+        async with OpenDota() as client:
+            yield client
+
+    @pytest.mark.asyncio
+    async def test_match_with_replay_url_succeeds(self, client):
+        """Test that matches with replay_url don't raise exceptions."""
+        match = await client.get_match(8461956309)
+
+        assert match.match_id == 8461956309
+        assert match.replay_url is not None
+        assert "valve.net" in match.replay_url
+
+    @pytest.mark.asyncio
+    async def test_replay_not_available_error_has_match_id(self):
+        """Test ReplayNotAvailableError contains match_id."""
+        error = ReplayNotAvailableError(12345)
+
+        assert error.match_id == 12345
+        assert "12345" in str(error)
+        assert "wait_for_replay_url" in str(error)
+
+    @pytest.mark.asyncio
+    async def test_replay_not_available_error_custom_message(self):
+        """Test ReplayNotAvailableError with custom message."""
+        error = ReplayNotAvailableError(12345, "Custom error message")
+
+        assert error.match_id == 12345
+        assert str(error) == "Custom error message"
+
+    @pytest.mark.asyncio
+    async def test_get_match_raises_when_no_replay_url(self):
+        """Test get_match raises ReplayNotAvailableError when replay_url missing."""
+        async with OpenDota(format='json') as client:
+            # Mock the get method to return match data without replay_url
+            original_get = client.get
+
+            async def mock_get(endpoint, *args, **kwargs):
+                if endpoint.startswith("matches/"):
+                    return {
+                        "match_id": 99999999,
+                        "duration": 1800,
+                        "radiant_win": True,
+                        # No replay_url field
+                    }
+                return await original_get(endpoint, *args, **kwargs)
+
+            client.get = mock_get
+
+            with pytest.raises(ReplayNotAvailableError) as exc_info:
+                await client.get_match(99999999)
+
+            assert exc_info.value.match_id == 99999999
+
+    @pytest.mark.asyncio
+    async def test_get_match_with_wait_requests_reparse(self):
+        """Test get_match with wait_for_replay_url=True requests reparse."""
+        async with OpenDota(format='json') as client:
+            call_count = 0
+            request_match_called = False
+
+            # Minimal valid match data
+            base_match = {
+                "match_id": 99999999,
+                "duration": 1800,
+                "radiant_win": True,
+                "radiant_score": 30,
+                "dire_score": 20,
+                "start_time": 1700000000,
+                "game_mode": 22,
+                "lobby_type": 0,
+                "players": [],
+            }
+
+            async def mock_get(endpoint, *args, **kwargs):
+                nonlocal call_count
+                if endpoint.startswith("matches/"):
+                    call_count += 1
+                    # First call: no replay_url, subsequent calls: has replay_url
+                    if call_count == 1:
+                        return base_match
+                    return {
+                        **base_match,
+                        "replay_url": "http://replay.valve.net/test.dem.bz2",
+                    }
+                return {"job": {"jobId": 123}}
+
+            async def mock_request_match(match_id):
+                nonlocal request_match_called
+                request_match_called = True
+                return {"job": {"jobId": 123}}
+
+            client.get = mock_get
+            client.request_match = mock_request_match
+
+            match = await client.get_match(
+                99999999,
+                wait_for_replay_url=True,
+                reparse_timeout=5.0,
+                reparse_poll_interval=0.1,
+            )
+
+            assert request_match_called
+            assert match.get("replay_url") is not None
+
+    @pytest.mark.asyncio
+    async def test_get_match_timeout_raises_error(self):
+        """Test get_match raises after timeout even with wait_for_replay_url=True."""
+        async with OpenDota(format='json') as client:
+            # Minimal valid match data without replay_url
+            base_match = {
+                "match_id": 99999999,
+                "duration": 1800,
+                "radiant_win": True,
+                "radiant_score": 30,
+                "dire_score": 20,
+                "start_time": 1700000000,
+                "game_mode": 22,
+                "lobby_type": 0,
+                "players": [],
+            }
+
+            async def mock_get(endpoint, *args, **kwargs):
+                if endpoint.startswith("matches/"):
+                    # Always return without replay_url
+                    return base_match
+                return {"job": {"jobId": 123}}
+
+            async def mock_request_match(match_id):
+                return {"job": {"jobId": 123}}
+
+            client.get = mock_get
+            client.request_match = mock_request_match
+
+            with pytest.raises(ReplayNotAvailableError) as exc_info:
+                await client.get_match(
+                    99999999,
+                    wait_for_replay_url=True,
+                    reparse_timeout=0.3,
+                    reparse_poll_interval=0.1,
+                )
+
+            assert exc_info.value.match_id == 99999999
+            assert "timeout" in str(exc_info.value).lower()
+
+    @pytest.mark.asyncio
+    async def test_request_match_returns_job_id(self, client):
+        """Test request_match returns job info."""
+        # Use a real match that exists
+        result = await client.request_match(8461956309)
+
+        assert "job" in result
+        assert "jobId" in result["job"]
+        assert isinstance(result["job"]["jobId"], int)

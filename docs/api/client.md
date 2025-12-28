@@ -40,19 +40,57 @@ OpenDota(
 
 ## Match Methods
 
-### get_match
+### request_match
 
-Get detailed match data by match ID.
+Request OpenDota to parse/reparse a match. Useful when `replay_url` is missing from match data.
 
 ```python
-match = await client.get_match(8461956309)
+job = await client.request_match(8461956309)
+print(job)  # {"job": {"jobId": 123456}}
 ```
 
 **Parameters:**
 
-- `match_id` (int): The match ID to retrieve
+- `match_id` (int): The match ID to request parsing for
+
+**Returns:** `dict` with job info
+
+### get_match
+
+Get detailed match data by match ID.
+
+**Note:** By default, raises `ReplayNotAvailableError` if the replay URL is not available. Use `wait_for_replay_url=True` to automatically request a reparse and wait.
+
+```python
+from opendota import OpenDota, ReplayNotAvailableError
+
+async with OpenDota() as client:
+    # Default: raises exception if replay_url missing
+    try:
+        match = await client.get_match(8461956309)
+    except ReplayNotAvailableError as e:
+        print(f"Replay not available for match {e.match_id}")
+
+    # Wait for replay URL (requests reparse automatically)
+    match = await client.get_match(
+        8461956309,
+        wait_for_replay_url=True,
+        reparse_timeout=30.0
+    )
+```
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `match_id` | `int` | required | The match ID to retrieve |
+| `wait_for_replay_url` | `bool` | `False` | If True, request reparse and poll until `replay_url` available or timeout. If False, raise exception immediately. |
+| `reparse_timeout` | `float` | `30.0` | Maximum seconds to wait for `replay_url` |
+| `reparse_poll_interval` | `float` | `3.0` | Seconds between polls when waiting |
 
 **Returns:** `Match` model or dict
+
+**Raises:** `ReplayNotAvailableError` if replay URL is not available
 
 ### get_public_matches
 

@@ -9,6 +9,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.40.2] - 2025-12-28
+
+### Added
+
+- **`ReplayNotAvailableError` exception** - Raised when a match's `replay_url` is not available
+  - Contains `match_id` attribute for easy identification
+  - Provides helpful message suggesting `wait_for_replay_url=True`
+
+- **`request_match(match_id)` method** - Triggers OpenDota to parse/reparse a match
+  - Useful when `replay_url` is missing from cached match data
+  - Returns job info with `jobId` for tracking
+
+- **`wait_for_replay_url` parameter in `get_match()`** - Auto-retry for missing replay URLs
+  - When `True`: requests reparse and polls until `replay_url` available or timeout
+  - When `False` (default): raises `ReplayNotAvailableError` immediately
+  - Configurable `reparse_timeout` (default: 30s) and `reparse_poll_interval` (default: 3s)
+
+### Changed
+
+- **`get_match()` now raises `ReplayNotAvailableError` by default** when `replay_url` is missing
+  - Previously returned match data without replay URL silently
+  - Use `wait_for_replay_url=True` to get the old behavior with auto-retry
+
 ## [7.40.1] - 2025-12-16
 
 ### Added

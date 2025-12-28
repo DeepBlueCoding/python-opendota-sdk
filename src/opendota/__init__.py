@@ -2,7 +2,24 @@
 
 from .client import OpenDota
 from .constants import DotaConstants, dota_constants
+from .exceptions import (
+    OpenDotaAPIError,
+    OpenDotaError,
+    OpenDotaNotFoundError,
+    OpenDotaRateLimitError,
+    ReplayNotAvailableError,
+)
 from .fantasy import FANTASY
 
-__version__ = "7.39.5.1.dev1"
-__all__ = ["OpenDota", "DotaConstants", "dota_constants", "FANTASY"]
+__version__ = "7.40.2"
+__all__ = [
+    "OpenDota",
+    "DotaConstants",
+    "dota_constants",
+    "FANTASY",
+    "OpenDotaError",
+    "OpenDotaAPIError",
+    "OpenDotaNotFoundError",
+    "OpenDotaRateLimitError",
+    "ReplayNotAvailableError",
+]

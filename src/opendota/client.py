@@ -16,7 +16,7 @@ else:
 
 import httpx
 
-from .exceptions import OpenDotaAPIError, OpenDotaNotFoundError, OpenDotaRateLimitError
+from .exceptions import OpenDotaAPIError, OpenDotaNotFoundError, OpenDotaRateLimitError, ReplayNotAvailableError
 from .fantasy import FANTASY
 from .models.hero import Hero, HeroStats
 from .models.league import League, LeagueTeam
@@ -310,16 +310,66 @@ class OpenDota:
         return await self._request("GET", endpoint, params=params, use_cache=use_cache, force=force)
 
     # Match Methods
-    async def get_match(self, match_id: int) -> MatchResponse:
+    async def request_match(self, match_id: int) -> Dict[str, Any]:
+        """Request OpenDota to parse/reparse a match.
+
+        This triggers OpenDota to fetch the replay and parse it.
+        Useful when replay_url is missing from match data.
+
+        Args:
+            match_id: The match ID to request parsing for
+
+        Returns:
+            Dict with job info (e.g., {"job": {"jobId": 123456}})
+        """
+        result: Dict[str, Any] = await self._request("POST", f"request/{match_id}", use_cache=False)
+        return result
+
+    async def get_match(
+        self,
+        match_id: int,
+        wait_for_replay_url: bool = False,
+        reparse_timeout: float = 30.0,
+        reparse_poll_interval: float = 3.0,
+    ) -> MatchResponse:
         """Get match data by match ID.
 
         Args:
             match_id: The match ID to retrieve
+            wait_for_replay_url: If True and replay_url is missing, request a reparse
+                and poll until replay_url is available or timeout is reached.
+                If False (default), raises ReplayNotAvailableError immediately.
+            reparse_timeout: Maximum seconds to wait for replay_url (default: 30)
+            reparse_poll_interval: Seconds between polls when waiting (default: 3)
 
         Returns:
             Match data (Match if format='pydantic', dict if format='json')
+
+        Raises:
+            ReplayNotAvailableError: If replay_url is not available
         """
         data = await self.get(f"matches/{match_id}")
+
+        if not data.get('replay_url'):
+            if not wait_for_replay_url:
+                raise ReplayNotAvailableError(match_id)
+
+            # Request reparse and poll for replay_url
+            await self.request_match(match_id)
+
+            start_time = time.time()
+            while time.time() - start_time < reparse_timeout:
+                await asyncio.sleep(reparse_poll_interval)
+                data = await self.get(f"matches/{match_id}", force=True)
+                if data.get('replay_url'):
+                    break
+
+            if not data.get('replay_url'):
+                raise ReplayNotAvailableError(
+                    match_id,
+                    f"Replay URL not available for match {match_id} after {reparse_timeout}s timeout"
+                )
+
         match = Match(**data)
         return cast(MatchResponse, self._format_response(match))
 

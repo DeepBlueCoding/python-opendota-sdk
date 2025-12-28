@@ -2,7 +2,7 @@
 
 ??? info "🤖 AI Summary"
 
-    Exception hierarchy: `OpenDotaError` (base) → `OpenDotaAPIError` (has `status_code`) → `OpenDotaRateLimitError` (429), `OpenDotaNotFoundError` (404). Catch specific exceptions first, fallback to `OpenDotaAPIError`. For rate limits, implement exponential backoff retry (2^attempt seconds).
+    Exception hierarchy: `OpenDotaError` (base) → `OpenDotaAPIError` (has `status_code`) → `OpenDotaRateLimitError` (429), `OpenDotaNotFoundError` (404). Also `ReplayNotAvailableError` for missing replay URLs. Catch specific exceptions first, fallback to `OpenDotaAPIError`. For rate limits, implement exponential backoff retry (2^attempt seconds).
 
 Custom exceptions for handling API errors.
 
@@ -10,9 +10,10 @@ Custom exceptions for handling API errors.
 
 ```
 OpenDotaError (base)
-└── OpenDotaAPIError
-    ├── OpenDotaRateLimitError
-    └── OpenDotaNotFoundError
+├── OpenDotaAPIError
+│   ├── OpenDotaRateLimitError
+│   └── OpenDotaNotFoundError
+└── ReplayNotAvailableError
 ```
 
 ## OpenDotaError
@@ -58,6 +59,41 @@ Raised when a resource is not found (HTTP 404).
 class OpenDotaNotFoundError(OpenDotaAPIError):
     """Resource not found error."""
     pass
+```
+
+## ReplayNotAvailableError
+
+Raised when a match's replay URL is not available. This happens when:
+
+- OpenDota hasn't parsed the match yet
+- The replay has expired from Valve's servers
+- The match doesn't have a replay (e.g., bot matches)
+
+```python
+class ReplayNotAvailableError(OpenDotaError):
+    def __init__(self, match_id: int, message: Optional[str] = None):
+        self.match_id = match_id
+        super().__init__(message)
+```
+
+**Attributes:**
+
+- `match_id` (int): The match ID that has no replay available
+
+**Example:**
+
+```python
+from opendota import OpenDota, ReplayNotAvailableError
+
+async with OpenDota() as client:
+    try:
+        match = await client.get_match(8461956309)
+    except ReplayNotAvailableError as e:
+        # Option 1: Retry with wait
+        match = await client.get_match(e.match_id, wait_for_replay_url=True)
+
+        # Option 2: Handle gracefully
+        print(f"Replay not available for {e.match_id}, skipping...")
 ```
 
 ## Error Handling Example
