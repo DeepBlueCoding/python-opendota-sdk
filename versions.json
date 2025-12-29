@@ -1,15 +1,5 @@
 [
   {
-    "version": "master",
-    "title": "master",
-    "aliases": []
-  },
-  {
-    "version": "dev",
-    "title": "dev",
-    "aliases": []
-  },
-  {
     "version": "7.40.2",
     "title": "7.40.2",
     "aliases": [
@@ -24,16 +14,6 @@
   {
     "version": "7.39.5.2",
     "title": "7.39.5.2",
-    "aliases": []
-  },
-  {
-    "version": "7.39.5.1.dev4",
-    "title": "7.39.5.1.dev4",
-    "aliases": []
-  },
-  {
-    "version": "7.39.5.1.dev3",
-    "title": "7.39.5.1.dev3",
     "aliases": []
   }
 ]
