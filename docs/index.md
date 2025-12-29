@@ -46,6 +46,29 @@ async def main():
 asyncio.run(main())
 ```
 
+### Fetching Match Replays
+
+Replay URLs are not immediately available for all matches. OpenDota must first download and parse the replay from Valve's servers, which can take time. By default, `get_match()` raises a `ReplayNotAvailableError` if the replay URL is missing.
+
+Use `wait_for_replay_url=True` to automatically request a parse and poll until the replay URL becomes available:
+
+```python
+from opendota import OpenDota
+from opendota.exceptions import ReplayNotAvailableError
+
+async with OpenDota() as client:
+    try:
+        # Wait for replay to be parsed (up to 60 seconds)
+        match = await client.get_match(
+            match_id=7891234567,
+            wait_for_replay_url=True,
+            reparse_timeout=60.0,
+        )
+        print(f"Replay URL: {match.replay_url}")
+    except ReplayNotAvailableError:
+        print("Replay not available after timeout")
+```
+
 ## Installation
 
 ```bash
