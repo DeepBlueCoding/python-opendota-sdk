@@ -9,6 +9,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.40.3] - Unreleased
+
+### Added
+
+- **`ParseTask` class** - Awaitable and async-iterable object for waiting on replay parsing
+  - Can be awaited directly: `match = await client.get_match(id, wait_for_replay=True)`
+  - Can be iterated for progress: `async for status in client.get_match(id, wait_for_replay=True)`
+  - User controls timeout via `break` or `asyncio.timeout()`
+
+- **`ParseStatus` model** - Yielded during `ParseTask` iteration
+  - `job_id`: Parse job ID
+  - `match_id`: Match being parsed
+  - `elapsed`: Seconds since parse request
+  - `attempts`: Number of parse attempts
+
+- **`wait_for_replay` parameter in `get_match()`** - Returns `ParseTask` for long-running parses
+  - No built-in timeout - user decides when to give up
+  - Supports old matches that can take hours to parse
+  - `interval` parameter controls polling frequency (default: 30s)
+
+### Changed
+
+- **`get_match()` no longer raises `ReplayNotAvailableError` by default**
+  - Returns match data even without `replay_url`
+  - Use `wait_for_replay=True` to wait for replay parsing
+
+### Removed
+
+- **`wait_for_replay_url` parameter** - Replaced by `wait_for_replay`
+- **`reparse_timeout` parameter** - No built-in timeout, user controls via iteration
+- **`reparse_poll_interval` parameter** - Replaced by `interval`
+- **`on_progress` callback** - Replaced by async iteration pattern
+
+### Migration
+
+```python
+# Old API (7.40.2)
+match = await client.get_match(id, wait_for_replay_url=True, reparse_timeout=60)
+
+# New API (7.40.3) - simple await (waits indefinitely)
+match = await client.get_match(id, wait_for_replay=True)
+
+# New API (7.40.3) - with user-controlled timeout
+async for status in client.get_match(id, wait_for_replay=True):
+    if status.elapsed > 60:
+        break
+```
+
 ## [7.40.2] - 2025-12-28
 
 ### Added
@@ -21,16 +69,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Useful when `replay_url` is missing from cached match data
   - Returns job info with `jobId` for tracking
 
-- **`wait_for_replay_url` parameter in `get_match()`** - Auto-retry for missing replay URLs
-  - When `True`: requests reparse and polls until `replay_url` available or timeout
-  - When `False` (default): raises `ReplayNotAvailableError` immediately
-  - Configurable `reparse_timeout` (default: 30s) and `reparse_poll_interval` (default: 3s)
-
-### Changed
-
-- **`get_match()` now raises `ReplayNotAvailableError` by default** when `replay_url` is missing
-  - Previously returned match data without replay URL silently
-  - Use `wait_for_replay_url=True` to get the old behavior with auto-retry
+- **`get_parse_job_status(job_id)` method** - Check parse job status
+  - Returns `ParseJob` if pending, `None` if completed
 
 ## [7.40.1] - 2025-12-16
 

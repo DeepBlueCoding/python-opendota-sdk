@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [7.39.5.1.dev4] - 2025-12-06
+## [7.40.3] - 2025-12-30
+
+### Added
+- `wait_for_replay` parameter for `get_match()` - wait for OpenDota to parse a match
+  - Returns `ParseTask` that can be awaited or iterated for progress updates
+  - Useful for recently completed matches that haven't been parsed yet
+  - Example: `match = await client.get_match(match_id, wait_for_replay=True)`
+
+### Fixed
+- Type annotations for `get_match()` overloads now correctly handle both sync and async usage
+
+## [7.40.2] - 2025-12-15
 
 ### Fixed
 - `get_pro_matches()` now returns fresh data instead of cached stale results

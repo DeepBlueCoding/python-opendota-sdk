@@ -11,7 +11,7 @@ from .exceptions import (
 )
 from .fantasy import FANTASY
 
-__version__ = "7.40.2"
+__version__ = "7.40.3"
 __all__ = [
     "OpenDota",
     "DotaConstants",
