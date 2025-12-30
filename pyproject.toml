@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "python-opendota-sdk"
-version = "7.40.2"
+version = "7.40.3.dev1"
 description = "Modern async Python wrapper for the OpenDota API with full type support"
 readme = "README.md"
 license = "MIT"

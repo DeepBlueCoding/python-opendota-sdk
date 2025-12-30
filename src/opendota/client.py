@@ -7,7 +7,7 @@ import os
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Literal, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, AsyncGenerator, Dict, List, Literal, Optional, Union, cast, overload
 
 if sys.version_info >= (3, 10):
     from typing import TypeAlias
@@ -21,6 +21,7 @@ from .fantasy import FANTASY
 from .models.hero import Hero, HeroStats
 from .models.league import League, LeagueTeam
 from .models.match import Match, ProMatch, PublicMatch
+from .models.parse_job import ParseJob, ParseJobRequest, ParseStatus
 from .models.player import PlayerMatch, PlayerProfile
 from .models.pro_player import ProPlayer
 from .models.team import Team, TeamMatch, TeamPlayer
@@ -47,6 +48,107 @@ ProPlayersResponse: TypeAlias = Union[List[ProPlayer], List[dict]]
 LeaguesResponse: TypeAlias = Union[List[League], List[dict]]
 LeagueResponse: TypeAlias = Union[League, dict]
 LeagueTeamsResponse: TypeAlias = Union[List[LeagueTeam], List[dict]]
+
+# Parse job type aliases
+ParseJobResponse: TypeAlias = Union[ParseJob, dict]
+ParseJobRequestResponse: TypeAlias = Union[ParseJobRequest, dict]
+
+if TYPE_CHECKING:
+    from .client import OpenDota as OpenDotaType
+
+
+class ParseTask:
+    """Awaitable and async-iterable task for waiting on replay parsing.
+
+    Can be used in two ways:
+
+    1. Simple await (waits indefinitely):
+        match = await client.get_match(match_id, wait_for_replay=True)
+
+    2. Iterate for progress control:
+        async for status in client.get_match(match_id, wait_for_replay=True):
+            print(f"Waiting... {status.elapsed}s")
+            if status.elapsed > 3600:
+                break
+        match = task.match
+    """
+
+    def __init__(
+        self,
+        client: "OpenDota",
+        match_id: int,
+        interval: float = 30.0,
+    ):
+        self.client = client
+        self.match_id = match_id
+        self.interval = interval
+        self.match: Optional[Match] = None
+        self._job_id: Optional[int] = None
+        self._started = False
+
+    def __await__(self):
+        """Await to wait indefinitely for replay to be ready."""
+        return self._wait_for_match().__await__()
+
+    def __aiter__(self):
+        """Iterate to get progress updates while waiting."""
+        return self._iterate()
+
+    async def _wait_for_match(self) -> Match:
+        """Wait until match has replay_url, then return it."""
+        async for _ in self._iterate():
+            pass
+        if self.match is None:
+            raise RuntimeError("Parse completed but match not set")
+        return self.match
+
+    async def _iterate(self) -> AsyncGenerator[ParseStatus, None]:
+        """Yield status updates until replay is ready."""
+        if self._started:
+            raise RuntimeError("ParseTask can only be iterated once")
+        self._started = True
+
+        # Check if already has replay
+        data = await self.client.get(f"matches/{self.match_id}")
+        if data.get("replay_url"):
+            self.match = Match(**data)
+            return
+
+        # Request parse
+        job_request = await self.client.request_match(self.match_id)
+        self._job_id = (
+            job_request.job_id
+            if isinstance(job_request, ParseJobRequest)
+            else job_request["job_id"]
+        )
+        start_time = time.time()
+
+        while True:
+            await asyncio.sleep(self.interval)
+            elapsed = time.time() - start_time
+
+            # Check job status
+            job_status = await self.client.get_parse_job_status(self._job_id)
+
+            # Check if replay appeared
+            data = await self.client.get(f"matches/{self.match_id}", force=True)
+            if data.get("replay_url"):
+                self.match = Match(**data)
+                return
+
+            # Yield status if job still pending
+            if job_status is not None:
+                attempts = (
+                    job_status.attempts
+                    if isinstance(job_status, ParseJob)
+                    else job_status.get("attempts", 0)
+                )
+                yield ParseStatus(
+                    job_id=self._job_id,
+                    match_id=self.match_id,
+                    elapsed=elapsed,
+                    attempts=attempts,
+                )
 
 
 class OpenDota:
@@ -310,66 +412,91 @@ class OpenDota:
         return await self._request("GET", endpoint, params=params, use_cache=use_cache, force=force)
 
     # Match Methods
-    async def request_match(self, match_id: int) -> Dict[str, Any]:
+    async def request_match(self, match_id: int) -> ParseJobRequestResponse:
         """Request OpenDota to parse/reparse a match.
 
         This triggers OpenDota to fetch the replay and parse it.
         Useful when replay_url is missing from match data.
 
+        Note: This call counts as 10 calls for rate limit purposes.
+
         Args:
             match_id: The match ID to request parsing for
 
         Returns:
-            Dict with job info (e.g., {"job": {"jobId": 123456}})
+            ParseJobRequest with job_id (or dict if format='json')
         """
         result: Dict[str, Any] = await self._request("POST", f"request/{match_id}", use_cache=False)
-        return result
+        job_request = ParseJobRequest.from_api_response(result)
+        return cast(ParseJobRequestResponse, self._format_response(job_request))
 
-    async def get_match(
+    async def get_parse_job_status(self, job_id: int) -> Optional[ParseJobResponse]:
+        """Get the status of a parse job.
+
+        Args:
+            job_id: The job ID returned from request_match()
+
+        Returns:
+            ParseJob if job is still pending, None if completed or not found.
+            Returns dict if format='json'.
+        """
+        data = await self.get(f"request/{job_id}", use_cache=False)
+        if data is None:
+            return None
+        job = ParseJob(job_id=data["jobId"], **{k: v for k, v in data.items() if k != "jobId"})
+        return cast(ParseJobResponse, self._format_response(job))
+
+    @overload
+    async def get_match(self, match_id: int) -> MatchResponse: ...
+
+    @overload
+    def get_match(
+        self, match_id: int, *, wait_for_replay: Literal[True], interval: float = ...
+    ) -> ParseTask: ...
+
+    def get_match(
         self,
         match_id: int,
-        wait_for_replay_url: bool = False,
-        reparse_timeout: float = 30.0,
-        reparse_poll_interval: float = 3.0,
-    ) -> MatchResponse:
+        *,
+        wait_for_replay: bool = False,
+        interval: float = 30.0,
+    ) -> Union[MatchResponse, ParseTask]:
         """Get match data by match ID.
 
         Args:
             match_id: The match ID to retrieve
-            wait_for_replay_url: If True and replay_url is missing, request a reparse
-                and poll until replay_url is available or timeout is reached.
-                If False (default), raises ReplayNotAvailableError immediately.
-            reparse_timeout: Maximum seconds to wait for replay_url (default: 30)
-            reparse_poll_interval: Seconds between polls when waiting (default: 3)
+            wait_for_replay: If True, returns a ParseTask that waits for replay.
+                The ParseTask can be awaited or iterated for progress updates.
+            interval: Seconds between status checks when waiting (default: 30)
 
         Returns:
-            Match data (Match if format='pydantic', dict if format='json')
+            Without wait_for_replay: Match data (awaitable)
+            With wait_for_replay=True: ParseTask (awaitable and async-iterable)
 
-        Raises:
-            ReplayNotAvailableError: If replay_url is not available
+        Examples:
+            # Normal usage - get match data immediately
+            match = await client.get_match(8461956309)
+
+            # Wait for replay (simple await, waits indefinitely)
+            match = await client.get_match(8461956309, wait_for_replay=True)
+
+            # Wait with progress updates (user controls timeout)
+            async for status in client.get_match(8461956309, wait_for_replay=True):
+                print(f"Waiting... {status.elapsed:.0f}s, attempt {status.attempts}")
+                if status.elapsed > 3600:
+                    break  # Give up after 1 hour
+
+            # Use with asyncio.timeout (Python 3.11+)
+            async with asyncio.timeout(3600):
+                match = await client.get_match(match_id, wait_for_replay=True)
         """
+        if wait_for_replay:
+            return ParseTask(self, match_id, interval=interval)
+        return self._get_match_async(match_id)
+
+    async def _get_match_async(self, match_id: int) -> MatchResponse:
+        """Internal async method to get match data."""
         data = await self.get(f"matches/{match_id}")
-
-        if not data.get('replay_url'):
-            if not wait_for_replay_url:
-                raise ReplayNotAvailableError(match_id)
-
-            # Request reparse and poll for replay_url
-            await self.request_match(match_id)
-
-            start_time = time.time()
-            while time.time() - start_time < reparse_timeout:
-                await asyncio.sleep(reparse_poll_interval)
-                data = await self.get(f"matches/{match_id}", force=True)
-                if data.get('replay_url'):
-                    break
-
-            if not data.get('replay_url'):
-                raise ReplayNotAvailableError(
-                    match_id,
-                    f"Replay URL not available for match {match_id} after {reparse_timeout}s timeout"
-                )
-
         match = Match(**data)
         return cast(MatchResponse, self._format_response(match))
 

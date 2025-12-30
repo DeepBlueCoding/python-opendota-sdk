@@ -13,6 +13,7 @@ from .match import (
     ProMatch,
     PublicMatch,
 )
+from .parse_job import ParseJob, ParseJobData, ParseJobRequest, ParseStatus
 from .player import PlayerMatch, PlayerProfile, Profile
 from .pro_player import ProPlayer
 from .team import Team, TeamMatch, TeamPlayer
@@ -27,6 +28,10 @@ __all__ = [
     "Match",
     "MatchLeague",
     "MatchTeam",
+    "ParseJob",
+    "ParseJobData",
+    "ParseJobRequest",
+    "ParseStatus",
     "PickBan",
     "Player",
     "PlayerMatch",
