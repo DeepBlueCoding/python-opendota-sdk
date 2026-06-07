@@ -272,8 +272,10 @@ class TestMatches:
         # Hero variant (persona/arcana variant)
         assert p0.hero_variant == 2
 
-        # Player identity
-        assert p0.personaname == "念头通达"
+        # Player identity: account_id is the stable key. personaname mirrors the
+        # CURRENT Steam profile name (mutable, joined at read time) — shape only.
+        assert p0.account_id == 898754153
+        assert isinstance(p0.personaname, str) and len(p0.personaname) > 0
 
         # Team indicator
         assert p0.isRadiant is True

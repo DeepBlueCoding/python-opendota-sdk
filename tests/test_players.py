@@ -67,18 +67,14 @@ class TestPlayers:
         # Should return exactly 3 matches as requested
         assert len(matches) == 3
 
-        # Test first match (most recent) - Match 8449874074
-        recent_match = matches[0]
-        assert recent_match.match_id == 8449874074
-        assert recent_match.hero_id == 97  # Magnus
-        assert recent_match.kills == 11
-        assert recent_match.deaths == 1
-        assert recent_match.assists == 16
-        assert recent_match.radiant_win is True
-        assert recent_match.duration == 1886
-        assert recent_match.party_size == 10  # Full lobby party
+        # NEVER golden-master "the most recent match": the account keeps playing,
+        # so that is mutable state. Assert the API contract instead:
+        # matches come most-recent-first.
+        start_times = [m.start_time for m in matches]
+        assert start_times == sorted(start_times, reverse=True)
 
-        # Test datetime conversion
+        # Test datetime conversion on the most recent match
+        recent_match = matches[0]
         expected_datetime = datetime.fromtimestamp(recent_match.start_time)
         assert recent_match.start_datetime == expected_datetime
 
